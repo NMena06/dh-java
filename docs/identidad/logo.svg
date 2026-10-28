@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="56" viewBox="0 0 260 56" role="img" aria-label="ReservaYa">
+  <title>ReservaYa</title>
+  <rect x="0" y="4" width="48" height="48" rx="12" fill="#6c4fe0"/>
+  <path d="M12 22 L24 12 L36 22 V37 a2 2 0 0 1 -2 2 H14 a2 2 0 0 1 -2 -2 Z" fill="#ffffff"/>
+  <rect x="20" y="26" width="8" height="13" rx="1.5" fill="#6c4fe0"/>
+  <path d="M30 15 L34 19 L40 12" fill="none" stroke="#ffb703" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="62" y="36" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="26" font-weight="800" fill="#2b1a66">Reserva<tspan fill="#6c4fe0">Ya</tspan></text>
+</svg>

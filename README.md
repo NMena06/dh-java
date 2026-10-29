@@ -38,7 +38,7 @@ cd backend
 mvn test
 ```
 
-Plan de pruebas y resultados: [`docs/pruebas/plan-de-pruebas.md`](docs/pruebas/plan-de-pruebas.md).
+Plan de pruebas y resultados: [`docs/pruebas/plan-de-pruebas.md`](docs/pruebas/plan-de-pruebas.md). Pruebas end-to-end en navegador (requiere backend y frontend corriendo): [`docs/pruebas/e2e/run.js`](docs/pruebas/e2e/run.js).
 
 ## API
 

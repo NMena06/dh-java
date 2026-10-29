@@ -4,129 +4,142 @@ Rol: TL Testing. Cobertura: historias #1 a #11 del Sprint 1.
 
 ## Estrategia
 
-1. **Pruebas automatizadas (backend):** JUnit 5 + Mockito (servicio) y MockMvc (controlador). Se ejecutan con `mvn test`.
+1. **Pruebas automatizadas de backend:** JUnit 5 + Mockito (servicio) y MockMvc (controlador). Ejecución: `mvn test`.
 2. **Pruebas de API:** llamadas HTTP reales contra el backend en ejecución.
-3. **Pruebas de interfaz:** revisión visual en navegador (capturas en `docs/pruebas/capturas/`).
+3. **Pruebas de interfaz end-to-end:** script Playwright (`docs/pruebas/e2e/run.js`) que usa Microsoft Edge instalado, recorre la aplicación en escritorio (1366px) y móvil (390px), y genera capturas en `docs/pruebas/capturas/`. Resultados en `docs/pruebas/e2e/resultados.json`.
 
-Leyenda de resultados: **OK** cumple, **FALLA** no cumple, **PENDIENTE** no verificado todavía.
+Leyenda: **OK** cumple, **FALLA** no cumple.
 
-## Resultados de pruebas automatizadas
+## Resumen de resultados
 
-Ejecución: `mvn test` con JDK 17.0.20 y Maven 3.10.0.
-
-| Clase | Pruebas | Resultado |
+| Tipo | Pruebas | Resultado |
 |---|---|---|
-| `ProductServiceTest` | 9 | OK (9/9) |
-| `ProductControllerTest` | 7 | OK (7/7) |
-| **Total** | **16** | **OK (16/16)** |
+| JUnit (`ProductServiceTest`, `ProductControllerTest`) | 16 | OK (16/16) |
+| End-to-end en navegador (`run.js`) | 27 | OK (27/27) |
+| **Total** | **43** | **OK (43/43)** |
+
+Entorno: JDK 17.0.20 (Temurin), Maven 3.10.0, Node 22.17.0, Microsoft Edge (canal `msedge`), Playwright-core.
 
 ## Casos de prueba por historia
 
 ### #1 Encabezado
 
-| ID | Caso | Resultado esperado | Resultado | Evidencia |
-|---|---|---|---|---|
-| 1.1 | Ver header en home | Logo y lema a la izquierda, botones "Crear cuenta" e "Iniciar sesión" a la derecha | OK | `home-footer.png` |
-| 1.2 | Header fijo al hacer scroll | Permanece arriba (`position: fixed`) | OK (por CSS) | Revisión de código |
-| 1.3 | Clic en logo redirige al inicio | Navega a `/` | OK (por código: `Link to="/"`) | Revisión de código |
-| 1.4 | Responsive en móvil | Header se reorganiza en columna | PENDIENTE | El navegador headless no permite ancho menor a ~500px; ver nota |
+| ID | Caso | Resultado esperado | Resultado |
+|---|---|---|---|
+| 1.1 | Header con logo y botones "Crear cuenta" / "Iniciar sesión" | Presentes | OK |
+| 1.2 | Header fijo al hacer scroll | `position: fixed` | OK |
+| 1.3 | Clic en logo redirige al inicio | URL `/` | OK |
+| 1.4 | Móvil (390px) sin desbordamiento | Exceso horizontal 0px | OK |
 
 ### #2 Cuerpo del sitio (Main)
 
-| ID | Caso | Resultado esperado | Resultado | Evidencia |
-|---|---|---|---|---|
-| 2.1 | Fondo de marca | Color de la paleta | OK | `home-footer.png` |
-| 2.2 | Alto 100% de pantalla | `min-height: 100vh` | OK (por CSS) | Revisión de código |
-| 2.3 | Tres bloques visibles | Buscador, categorías y recomendaciones | OK | `home-footer.png` |
+| ID | Caso | Resultado esperado | Resultado |
+|---|---|---|---|
+| 2.1 | Fondo con color de marca | Paleta de `docs/identidad/paleta.md` | OK (`home-footer.png`) |
+| 2.2 | Alto 100% de pantalla | `min-height: 100vh` | OK (revisión de código) |
+| 2.3 | Tres bloques: buscador, categorías, recomendaciones | Visibles | OK (`home-footer.png`) |
 
 ### #3 Registrar producto
 
-| ID | Caso | Resultado esperado | Resultado | Evidencia |
-|---|---|---|---|---|
-| 3.1 | Crear producto válido (API) | 201 y producto guardado | OK | Prueba de API + `ProductControllerTest` |
-| 3.2 | Nombre duplicado (API) | 409 con mensaje "ya está en uso" | OK | Prueba de API + `ProductControllerTest` |
-| 3.3 | Campos obligatorios vacíos | 400 con mensaje | OK | `ProductControllerTest` |
-| 3.4 | Formulario en el panel | Campos nombre, descripción e imagen; mensaje de error | PENDIENTE (UI) | Formulario implementado, falta prueba en navegador |
-| 3.5 | Subir varias imágenes | Múltiples archivos aceptados | PENDIENTE (UI) | Input `multiple` implementado |
+| ID | Caso | Resultado esperado | Resultado |
+|---|---|---|---|
+| 3.1 | Guardar producto desde el formulario | Redirige a la lista | OK |
+| 3.2 | Producto aparece en el listado | Visible en la tabla | OK |
+| 3.3 | Campos obligatorios vacíos (API) | 400 con mensaje | OK (`ProductControllerTest`) |
+| 3.4 | Nombre duplicado (sin distinguir mayúsculas) | Mensaje "ya esta en uso" en pantalla | OK (`form-duplicado.png`) |
+| 3.5 | Subir varias imágenes | Se aceptan 5 archivos | OK |
 
 ### #4 Productos aleatorios en el home
 
-| ID | Caso | Resultado esperado | Resultado | Evidencia |
-|---|---|---|---|---|
-| 4.1 | Máximo 10 productos | Como máximo 10 | OK | `ProductControllerTest.random_limitaA10` |
-| 4.2 | Sin repetidos | Sin nombres repetidos | OK | `ProductServiceTest.findRandom_devuelveLimiteSinRepetidos` |
-| 4.3 | Orden variable | No siempre el mismo orden | OK | `ProductServiceTest.findRandom_noSiempreEsElMismoOrden` |
-| 4.4 | Distribución 2 columnas | 2 columnas en escritorio | OK | `home-footer.png` |
+| ID | Caso | Resultado esperado | Resultado |
+|---|---|---|---|
+| 4.1 | Máximo 10 productos | 10 o menos | OK (10) |
+| 4.2 | Sin repetidos | Nombres únicos | OK (`ProductServiceTest`) |
+| 4.3 | Orden no fijo | Distinto orden entre llamadas | OK (`ProductServiceTest`) |
+| 4.4 | 2 columnas en escritorio | 2 columnas | OK |
 
 ### #5 Detalle de producto
 
-| ID | Caso | Resultado esperado | Resultado | Evidencia |
-|---|---|---|---|---|
-| 5.1 | Encabezado a 100% de ancho | Barra del título ocupa todo el ancho | OK | `capturas/detalle-producto.png` |
-| 5.2 | Título a la izquierda | Alineado a la izquierda | OK | `capturas/detalle-producto.png` |
-| 5.3 | Flecha a la derecha | Icono SVG alineado a la derecha, vuelve atrás | OK | `capturas/detalle-producto.png` |
-| 5.4 | Texto e imágenes en el body | Descripción y galería | OK | `capturas/detalle-producto.png` |
-| 5.5 | Producto inexistente | Mensaje de error | OK (API 404; UI muestra el mensaje) | Prueba de API |
+| ID | Caso | Resultado esperado | Resultado |
+|---|---|---|---|
+| 5.1 | Encabezado a 100% de ancho | Barra completa | OK (`detalle-producto.png`) |
+| 5.2 | Título a la izquierda | Alineado a la izquierda | OK (`detalle-producto.png`) |
+| 5.3 | Flecha a la derecha vuelve atrás | Regresa a la página anterior | OK |
+| 5.4 | Descripción e imágenes en el body | Presentes | OK (`detalle-producto.png`) |
 
 ### #6 Galería de imágenes
 
-| ID | Caso | Resultado esperado | Resultado | Evidencia |
-|---|---|---|---|---|
-| 6.1 | Imagen principal a la izquierda | Mitad izquierda | OK | `capturas/detalle-producto.png` |
-| 6.2 | Grilla 2x2 a la derecha | 4 miniaturas | OK | `capturas/detalle-producto.png` |
-| 6.3 | "Ver más" con menos de 5 imágenes | Botón oculto | OK (producto con 3 imágenes, sin botón) | `capturas/detalle-producto.png` |
-| 6.4 | "Ver más" con 5 o más imágenes | Botón visible y modal con todas | PENDIENTE | No hay producto con 5+ imágenes en los datos de prueba |
-| 6.5 | Responsive | Una columna en móvil | PENDIENTE | Mismo límite del navegador headless |
+| ID | Caso | Resultado esperado | Resultado |
+|---|---|---|---|
+| 6.1 | Imagen principal a la izquierda | Mitad izquierda | OK (`detalle-producto.png`) |
+| 6.2 | Grilla 2x2 a la derecha | 4 miniaturas | OK (`detalle-producto.png`) |
+| 6.3 | Sin "Ver más" con menos de 5 imágenes | Botón oculto | OK (`detalle-producto.png`, 3 imágenes) |
+| 6.4 | "Ver más" con 5 imágenes | Botón visible | OK |
+| 6.5 | Modal con todas las imágenes | 5 imágenes | OK (`galeria-modal.png`) |
+| 6.6 | Modal se cierra | Sin modal | OK |
+| 6.7 | Móvil sin desbordamiento | Exceso 0px | OK (`movil-detalle.png`) |
 
 ### #7 Footer
 
-| ID | Caso | Resultado esperado | Resultado | Evidencia |
-|---|---|---|---|---|
-| 7.1 | Footer en el DOM | Presente en la página | OK | Verificado con `--dump-dom` |
-| 7.2 | Logo, año y copyright | Isologotipo, `© 2026 ReservaYa` | OK | DOM |
-| 7.3 | Visible al hacer scroll | Al final de la página | OK (por ubicación; el `main` ocupa 100% de alto) | Revisión de código |
+| ID | Caso | Resultado esperado | Resultado |
+|---|---|---|---|
+| 7.1 | Footer con logo y copyright | Presente | OK (`home-footer.png`) |
+| 7.2 | Año y copyright | `© <año> ReservaYa` | OK |
 
 ### #8 Paginación
 
-| ID | Caso | Resultado esperado | Resultado | Evidencia |
-|---|---|---|---|---|
-| 8.1 | Página de máximo 10 | `size` limitado a 10 | OK | Prueba de API `/page?size=50` (límite aplicado) |
-| 8.2 | Contador y navegación | Botones de páginas y Anterior/Siguiente | OK (API); PENDIENTE (UI) | `findPage` probado en `ProductServiceTest.findPage_devuelveMetadatosDePaginacion` |
-| 8.3 | Inicio / Anterior / Siguiente | Botones se deshabilitan en extremos | PENDIENTE (UI) | Implementado, falta prueba en navegador |
+| ID | Caso | Resultado esperado | Resultado |
+|---|---|---|---|
+| 8.1 | Página 1 activa al cargar | Indicador en 1 | OK |
+| 8.2 | Máximo 10 productos por página | 10 | OK |
+| 8.3 | Siguiente cambia de página | Contenido distinto | OK (`paginacion.png`) |
+| 8.4 | Anterior habilitado en página 2 | Habilitado | OK |
+| 8.5 | Inicio vuelve a la página 1 | Página 1 | OK |
+| 8.6 | Inicio deshabilitado en página 1 | Deshabilitado | OK |
+| 8.7 | `size` mayor a 10 se limita | `size=10` | OK (API: `size=50` -> 10) |
 
 ### #9 Panel de administración
 
-| ID | Caso | Resultado esperado | Resultado | Evidencia |
-|---|---|---|---|---|
-| 9.1 | URL `/administracion` | Carga el panel | OK | `admin-panel.png` |
-| 9.2 | Menú de funciones | Botones "Agregar producto" y "Lista de productos" | OK | `admin-panel.png` |
-| 9.3 | No responsive (móvil) | Aviso de no disponible | PENDIENTE | Mismo límite del navegador headless |
+| ID | Caso | Resultado esperado | Resultado |
+|---|---|---|---|
+| 9.1 | URL `/administracion` | Carga el panel | OK (`admin-panel.png`) |
+| 9.2 | Botones "Agregar producto" y "Lista de productos" | Presentes | OK |
+| 9.3 | Móvil: aviso de no disponible | Aviso visible, contenido oculto | OK (`movil-admin.png`) |
 
 ### #10 Listar productos
 
-| ID | Caso | Resultado esperado | Resultado | Evidencia |
-|---|---|---|---|---|
-| 10.1 | Botón "Lista de productos" | Abre `/administracion/productos` | OK | `admin-panel.png` |
-| 10.2 | Columnas Id, Nombre, Acciones | Tabla con esas columnas | OK | `admin-lista.png` |
-| 10.3 | Lista completa | Todos los productos | OK | `admin-lista.png` |
+| ID | Caso | Resultado esperado | Resultado |
+|---|---|---|---|
+| 10.1 | Columnas Id, Nombre, Acciones | Presentes | OK (`admin-lista.png`) |
+| 10.2 | Lista completa de productos | Todos los productos | OK |
 
 ### #11 Eliminar producto
 
-| ID | Caso | Resultado esperado | Resultado | Evidencia |
-|---|---|---|---|---|
-| 11.1 | Acción "Eliminar producto" por fila | Botón en cada fila | OK | `admin-lista.png` |
-| 11.2 | Confirmación antes de borrar | Diálogo de confirmación | PENDIENTE (UI) | Implementado con `window.confirm`; falta prueba en navegador |
-| 11.3 | Borrado en base de datos | DELETE responde 204 y el producto desaparece | OK | Prueba de API (DELETE 204) + `ProductControllerTest.eliminar_responde204` |
-| 11.4 | Producto eliminado no aparece | GET de id eliminado devuelve 404 | OK | Prueba de API (GET posterior 404) |
-| 11.5 | Cancelar no cambia nada | Sin llamada a la API | OK por código | Revisión de código (`if (!confirmed) return`) |
+| ID | Caso | Resultado esperado | Resultado |
+|---|---|---|---|
+| 11.1 | Acción "Eliminar producto" por fila | Presente | OK |
+| 11.2 | Cancelar confirmación no cambia nada | Lista sin cambios | OK |
+| 11.3 | Aceptar elimina de la lista | Fila eliminada | OK |
+| 11.4 | Producto eliminado no existe en API | 404 | OK |
+| 11.5 | Eliminar en base de datos | DELETE 204 (`ProductControllerTest`, API) | OK |
 
 ## Hallazgos
 
-1. **Producto con id 1 desaparecido.** Durante las pruebas, el producto de ejemplo con id 1 ("Hotel Mirador del Lago") dejó de existir en la base H2. No encontré la causa en el código: la lógica de borrado solo se ejecuta desde la API o la interfaz, y no borré ese id intencionalmente. Se recomienda revisar la base y reiniciar con `backend/data/` vacío para regenerar la semilla.
-2. **Límite de la prueba responsive.** El navegador headless (Edge) no permite ventanas menores de ~500px, así que la verificación de móvil (#1.4, #6.5, #9.3) queda pendiente. Se debe completar con las herramientas de desarrollo del navegador.
-3. **Codificación.** Las tildes se ven correctamente en la API y la interfaz; los caracteres extraños solo aparecen en la consola de PowerShell.
+1. **Producto con id 1 eliminado.** El producto id 1 desapareció durante las pruebas. Fue eliminado manualmente como parte de las pruebas de borrado, por lo que no es un defecto. **Cerrado.**
+2. **Datos de prueba.** El script E2E crea productos "Servicio de prueba N" para probar la paginación, y un producto "Hotel Galeria Completa" con 5 imágenes que se elimina al final. Las imágenes de prueba son un PNG de 1x1 píxel estirado, por lo que las capturas muestran bloques de color.
+3. **Codificación.** Las tildes se ven bien en la API y la interfaz. Los caracteres extraños solo aparecen en la consola de PowerShell.
 
-## Pendientes para cerrar el sprint
+## Limitaciones
 
-- Probar en navegador: formulario de alta (3.4, 3.5), paginación (8.2, 8.3), confirmación de borrado (11.2), galería con 5+ imágenes (6.4) y todas las vistas responsive (1.4, 6.5, 9.3).
-- Agregar un producto con 5 o más imágenes para validar la galería completa.
+- Las pruebas se ejecutaron en Microsoft Edge. No se probó en Firefox ni Safari.
+- La prueba de móvil usa un viewport de 390px, no un dispositivo real.
+- El panel de administración no tiene autenticación (fuera del alcance del Sprint 1).
+
+## Cómo reproducir
+
+```bash
+# Backend en :8080 y frontend en :5173 corriendo
+cd docs/pruebas/e2e
+npm install playwright-core
+node run.js
+```

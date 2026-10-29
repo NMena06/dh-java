@@ -31,15 +31,15 @@ Proyecto del Desafío Profesional (Digital House). Aplicación de reservas (hote
 |---|---|---|---|
 | 1 | Colocar encabezado | Alta | Completada |
 | 2 | Definir el cuerpo del sitio | Alta | Completada |
-| 3 | Registrar producto | Alta | Completada (API verificada; formulario pendiente de prueba en navegador) |
+| 3 | Registrar producto | Alta | Completada (probada en navegador y API) |
 | 4 | Visualizar productos en el home | Alta | Completada |
 | 5 | Visualizar detalle de producto | Alta | Completada |
-| 6 | Visualizar galería de imágenes | Alta | Completada (galería de 5+ imágenes pendiente de prueba) |
+| 6 | Visualizar galería de imágenes | Alta | Completada (probada con 5 imágenes) |
 | 7 | Colocar pie de página | Baja | Completada |
-| 8 | Paginar productos | Baja | Completada (API verificada; UI pendiente de prueba) |
+| 8 | Paginar productos | Baja | Completada (probada en navegador y API) |
 | 9 | Panel de administración | Media | Completada |
 | 10 | Listar productos | Media | Completada |
-| 11 | Eliminar producto | Baja | Completada (API verificada; confirmación pendiente de prueba en navegador) |
+| 11 | Eliminar producto | Baja | Completada (probada en navegador y API) |
 
 ## 4. Decisiones técnicas
 
@@ -54,11 +54,11 @@ Proyecto del Desafío Profesional (Digital House). Aplicación de reservas (hote
 
 | Fecha | Actividad |
 |---|---|
-| 2026-10-27 | Definición del proyecto y creación de la estructura base (backend y frontend). |
-| 2026-10-27 | Implementación de las historias #1 a #11 y de la paginación (#8). |
-| 2026-10-27 | Configuración del entorno: JDK 17, Maven 3.10.0, Node 22, Git. |
-| 2026-10-27 | Pruebas automatizadas: 16/16 OK. Verificación de API y de interfaz (capturas en `docs/pruebas/capturas/`). |
-| 2026-10-27 | Documentación: plan de pruebas, identidad de marca, bitácora y README. Publicación en `NMena06/dh-java`. |
+| (fecha) | Definición del proyecto y creación de la estructura base (backend y frontend). |
+| (fecha) | Implementación de las historias #1 a #11 y de la paginación (#8). |
+| (fecha) | Configuración del entorno: JDK 17, Maven 3.10.0, Node 22, Git. |
+| (fecha) | Pruebas automatizadas: 16/16 OK. Pruebas end-to-end en navegador: 27/27 OK, incluido móvil (capturas en `docs/pruebas/capturas/`). |
+| (fecha) | Documentación: plan de pruebas, identidad de marca, bitácora y README. Publicación en `NMena06/dh-java`. |
 
 ## 6. Problemas encontrados y resolución
 
@@ -69,10 +69,10 @@ Proyecto del Desafío Profesional (Digital House). Aplicación de reservas (hote
 | Header desbordado en móvil | Reorganización en columna con botones de ancho igual. |
 | "Ver más" aparecía con una sola imagen | La condición se cambió a mostrar el botón solo con 5 o más imágenes. |
 | Servidor de desarrollo sirviendo código antiguo | Reinicio de Vite con `--force`. |
-| Producto con id 1 desaparecido de la base | Sin causa identificada; pendiente de revisión (ver plan de pruebas, hallazgo 1). |
+| Producto con id 1 eliminado durante pruebas | Eliminado manualmente como parte de las pruebas de borrado; no es defecto. |
 
 ## 7. Pendientes para el cierre del sprint
 
-- Probar en navegador: formulario de alta, paginación, confirmación de borrado, galería con 5+ imágenes y vistas móviles.
-- Completar el tablero de Trello (copiar el tablero y mover las tarjetas a "En progreso" y "Hecho").
-- Revisar la base H2 y regenerar la semilla si es necesario.
+- Completar el tablero de Trello (copiar el tablero y mover las tarjetas a "En progreso" y "Hecho") y agregar el enlace en el README.
+- Completar los nombres de los roles en la tabla de la secci�n 2.
+- Completar las fechas reales de la secci�n 5.

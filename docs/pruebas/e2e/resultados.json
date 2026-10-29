@@ -1,0 +1,164 @@
+[
+  {
+    "id": "1.1",
+    "desc": "Header con logo y botones",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "id": "1.2",
+    "desc": "Header fijo (position: fixed)",
+    "ok": true,
+    "detail": "fixed"
+  },
+  {
+    "id": "4.1",
+    "desc": "Recomendaciones: maximo 10",
+    "ok": true,
+    "detail": "(10)"
+  },
+  {
+    "id": "4.4",
+    "desc": "Recomendaciones en 2 columnas (desktop)",
+    "ok": true,
+    "detail": "(2 columnas)"
+  },
+  {
+    "id": "7.1",
+    "desc": "Footer presente con logo y copyright",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "id": "8.1",
+    "desc": "Paginacion muestra pagina 1 activa",
+    "ok": true,
+    "detail": "(1)"
+  },
+  {
+    "id": "8.2",
+    "desc": "Pagina tiene maximo 10 productos",
+    "ok": true,
+    "detail": "(10)"
+  },
+  {
+    "id": "8.3",
+    "desc": "Boton Siguiente cambia de pagina",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "id": "8.4",
+    "desc": "Boton Anterior habilitado en pagina 2",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "id": "8.5",
+    "desc": "Boton Inicio vuelve a pagina 1",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "id": "8.6",
+    "desc": "Boton Inicio deshabilitado en pagina 1",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "id": "1.3",
+    "desc": "Clic en logo redirige al inicio",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "id": "3.5",
+    "desc": "Permite seleccionar varias imagenes",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "id": "3.1",
+    "desc": "Guardar producto redirige a la lista",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "id": "3.2",
+    "desc": "Producto aparece en la lista de administracion",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "id": "3.4",
+    "desc": "Nombre duplicado muestra error en pantalla",
+    "ok": true,
+    "detail": "(\"El nombre \"HOTEL GALERIA COMPLETA\" ya esta en uso\")"
+  },
+  {
+    "id": "6.4",
+    "desc": "Boton \"Ver mas\" visible con 5 imagenes",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "id": "6.5",
+    "desc": "Modal muestra todas las imagenes (5)",
+    "ok": true,
+    "detail": "(5)"
+  },
+  {
+    "id": "6.6",
+    "desc": "Modal se cierra",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "id": "5.3",
+    "desc": "Flecha vuelve a la pagina anterior",
+    "ok": true,
+    "detail": "(http://localhost:5173/administracion/productos)"
+  },
+  {
+    "id": "11.2",
+    "desc": "Cancelar confirmacion no elimina",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "id": "11.3",
+    "desc": "Aceptar confirmacion elimina de la lista",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "id": "11.4",
+    "desc": "Producto eliminado responde 404 en API",
+    "ok": true,
+    "detail": "(404)"
+  },
+  {
+    "id": "9.2",
+    "desc": "Panel muestra botones Agregar y Lista",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "id": "1.4",
+    "desc": "Movil: sin desbordamiento horizontal en home",
+    "ok": true,
+    "detail": "(exceso 0px)"
+  },
+  {
+    "id": "9.3",
+    "desc": "Movil: panel muestra aviso y oculta contenido",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "id": "6.7",
+    "desc": "Movil: detalle/galeria sin desbordamiento",
+    "ok": true,
+    "detail": "(exceso 0px)"
+  }
+]

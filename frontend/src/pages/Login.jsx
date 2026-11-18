@@ -13,7 +13,7 @@ export default function Login() {
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  if (isAuthenticated) return <Navigate to="/" replace />;
+  if (isAuthenticated) return <Navigate to={location.state?.from ?? "/"} replace />;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -42,7 +42,15 @@ export default function Login() {
     <section className="auth-page">
       <form className="auth-card" onSubmit={handleSubmit} noValidate>
         <h1>Iniciar sesión</h1>
-        {location.state?.from && (
+        {location.state?.reason === 'reserva' ? (
+          <div className="login-required" role="note">
+            <strong>Para reservar es obligatorio iniciar sesión.</strong>
+            <span>
+              Si todavía no tienes una cuenta, primero debes{' '}
+              <Link to="/registro" state={{ from: location.state.from, reason: 'reserva' }}>registrarte</Link>.
+            </span>
+          </div>
+        ) : location.state?.from && (
           <p className="info-text">
             {location.state.reason === 'favoritos' ? 'Inicia sesión para guardar tus favoritos.' : 'Inicia sesión para continuar.'}
           </p>
@@ -65,7 +73,7 @@ export default function Login() {
           {submitting ? 'Ingresando...' : 'Iniciar sesión'}
         </button>
         <p className="auth-switch">
-          ¿No tienes cuenta? <Link to="/registro">Regístrate</Link>
+          ¿No tienes cuenta? <Link to="/registro" state={location.state}>Regístrate</Link>
         </p>
       </form>
     </section>

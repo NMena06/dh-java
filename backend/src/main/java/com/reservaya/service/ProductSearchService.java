@@ -17,7 +17,7 @@ import java.util.*;
 /**
  * Historia #22: busqueda por texto y rango de fechas, ordenada por relevancia, y sugerencias de autocompletado.
  *
- * Relevancia: cada palabra buscada debe aparecer en el nombre, la categoria o la descripcion (sin distinguir
+ * Relevancia: cada palabra buscada debe aparecer en el nombre, la categoria, la ubicacion o la descripcion (sin distinguir
  * mayusculas ni tildes). Pesa mas una coincidencia en el nombre (sobre todo al inicio de una palabra) que en la
  * categoria, y esta mas que en la descripcion. Con fechas, se excluyen los productos reservados en ese rango.
  * El filtrado se hace en memoria: es suficiente para el volumen del MVP.
@@ -94,7 +94,8 @@ public class ProductSearchService {
         for (Product product : productRepository.findAll()) {
             String name = normalize(product.getName());
             if (name.contains(q)) {
-                String detail = product.getCategory() != null ? product.getCategory().getTitle() : "Producto";
+                String detail = product.getLocation() != null ? product.getLocation()
+                        : product.getCategory() != null ? product.getCategory().getTitle() : "Producto";
                 Suggestion s = new Suggestion("product", product.getId(), product.getName(), detail);
                 (startsWord(name, q) ? starts : contains).add(s);
             }
@@ -111,6 +112,7 @@ public class ProductSearchService {
         String name = normalize(product.getName());
         String category = product.getCategory() != null ? normalize(product.getCategory().getTitle()) : "";
         String description = normalize(product.getDescription());
+        String location = normalize(product.getLocation());
         double total = 0;
         for (String token : tokens) {
             double best = 0;
@@ -119,7 +121,7 @@ public class ProductSearchService {
             } else if (name.contains(token)) {
                 best = 2;
             }
-            if (category.contains(token)) {
+            if (category.contains(token) || location.contains(token)) {
                 best = Math.max(best, 2);
             }
             if (description.contains(token)) {

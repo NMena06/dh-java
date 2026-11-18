@@ -1,5 +1,5 @@
 {
-  "fecha": "2026-11-18T19:03:23.375Z",
+  "fecha": "2026-11-18T19:26:23.700Z",
   "passed": 55,
   "total": 55,
   "results": [
@@ -199,7 +199,7 @@
       "id": "27.4",
       "desc": "Elige red y mensaje personalizado: abre X con el texto y el enlace",
       "ok": true,
-      "detail": "(https://twitter.com/intent/tweet?text=Mi recomendación 578698&url=http://localho...)"
+      "detail": "(https://twitter.com/intent/tweet?text=Mi recomendación 955880&url=http://localho...)"
     },
     {
       "id": "27.5",

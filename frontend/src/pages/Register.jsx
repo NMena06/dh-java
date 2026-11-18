@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { register, resendConfirmation } from '../services/authService.js';
 import { toSpanish, validateRegistration } from '../utils/validation.js';
@@ -12,6 +12,7 @@ const EMPTY = { firstName: '', lastName: '', email: '', password: '', confirmPas
  */
 export default function Register() {
   const { isAuthenticated } = useAuth();
+  const location = useLocation();
   const [form, setForm] = useState(EMPTY);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
@@ -83,7 +84,7 @@ export default function Register() {
             Hola <strong>{registered.firstName}</strong>, tu cuenta fue creada. Te enviamos un correo de confirmación a{' '}
             <strong>{registered.email}</strong>.
           </p>
-          <Link to="/login" state={{ email: registered.email }} className="btn btn-primary btn-block">
+          <Link to="/login" state={{ ...location.state, email: registered.email }} className="btn btn-primary btn-block">
             Iniciar sesión
           </Link>
           <div className="resend">
@@ -150,7 +151,7 @@ export default function Register() {
           {submitting ? 'Creando cuenta...' : 'Crear cuenta'}
         </button>
         <p className="auth-switch">
-          ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
+          ¿Ya tienes cuenta? <Link to="/login" state={location.state}>Inicia sesión</Link>
         </p>
       </form>
     </section>

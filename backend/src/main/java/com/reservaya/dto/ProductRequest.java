@@ -28,13 +28,16 @@ public record ProductRequest(
         Set<Long> featureIds,
 
         @Size(max = 12, message = "Se admiten hasta 12 politicas")
-        List<@Valid PolicyRequest> policies
+        List<@Valid PolicyRequest> policies,
+
+        @Size(max = 120, message = "La ubicacion no puede superar los 120 caracteres")
+        String location
 ) {
     public ProductRequest(String name, String description, List<String> images) {
-        this(name, description, images, null, null, null);
+        this(name, description, images, null, null, null, null);
     }
 
     public ProductRequest(String name, String description, List<String> images, Long categoryId, Set<Long> featureIds) {
-        this(name, description, images, categoryId, featureIds, null);
+        this(name, description, images, categoryId, featureIds, null, null);
     }
 }

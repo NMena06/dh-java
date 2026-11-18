@@ -28,6 +28,7 @@ export default function Profile() {
         </dl>
         <div className="profile-actions">
           <Link to="/" className="btn btn-primary">Buscar reservas</Link>
+          <Link to="/mis-reservas" className="btn btn-outline-dark">Mis reservas</Link>
           <Link to="/favoritos" className="btn btn-outline-dark">Mis favoritos</Link>
           {isAdmin && <Link to="/administracion" className="btn btn-outline-dark">Panel de administración</Link>}
         </div>

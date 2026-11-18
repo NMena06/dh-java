@@ -62,6 +62,8 @@ public class SecurityConfig {
                         // Sprint 3: valorar (#28) y favoritos (#24, #25) requieren sesion, no rol admin
                         .requestMatchers(ant(HttpMethod.POST, "/api/products/*/reviews")).authenticated()
                         .requestMatchers(ant(null, "/api/favorites/**")).authenticated()
+                        // Sprint 4: reservas (#30 a #33)
+                        .requestMatchers(ant(null, "/api/reservations/**")).authenticated()
                         .requestMatchers(
                                 ant(null, "/api/products/**"),
                                 ant(null, "/api/categories/**"),

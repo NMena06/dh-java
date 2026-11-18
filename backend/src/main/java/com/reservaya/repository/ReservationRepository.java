@@ -22,6 +22,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("select distinct r.product.id from Reservation r where r.startDate < :to and r.endDate > :from")
     Set<Long> findBookedProductIds(@Param("from") LocalDate from, @Param("to") LocalDate to);
 
+    /** Historial de un usuario (historia #33). */
+    List<Reservation> findByUserIdOrderByStartDateDesc(Long userId);
+
     /** Una reserva finalizada (dia de salida hoy o antes) habilita a valorar el producto. */
     boolean existsByUserIdAndProductIdAndEndDateLessThanEqual(Long userId, Long productId, LocalDate date);
 }

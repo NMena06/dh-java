@@ -16,6 +16,7 @@ export default function AdminProductForm() {
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [location, setLocation] = useState('');
   const [existingImages, setExistingImages] = useState([]);
   const [files, setFiles] = useState([]);
   const [categoryId, setCategoryId] = useState('');
@@ -37,6 +38,7 @@ export default function AdminProductForm() {
         if (product) {
           setName(product.name);
           setDescription(product.description);
+          setLocation(product.location ?? '');
           setExistingImages(product.images ?? []);
           setCategoryId(product.category?.id ? String(product.category.id) : '');
           setFeatureIds((product.features ?? []).map((f) => f.id));
@@ -95,6 +97,7 @@ export default function AdminProductForm() {
         images: [...existingImages, ...newImages],
         categoryId: categoryId ? Number(categoryId) : null,
         featureIds,
+        location: location.trim() || null,
         policies: policies.map((p) => ({ title: p.title.trim(), description: p.description.trim() })),
       };
       if (isEdit) await updateProduct(id, payload);
@@ -127,6 +130,12 @@ export default function AdminProductForm() {
         <label>
           Descripción
           <textarea rows={5} value={description} onChange={(e) => setDescription(e.target.value)} maxLength={2000} />
+        </label>
+
+        <label>
+          Ubicación (opcional)
+          <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} maxLength={120}
+            placeholder="Ej.: San Carlos de Bariloche, Río Negro" />
         </label>
 
         <label>

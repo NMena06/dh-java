@@ -9,6 +9,9 @@ import ShareModal from '../components/ShareModal.jsx';
 import FavoriteButton from '../components/FavoriteButton.jsx';
 import { RatingSummary } from '../components/StarRating.jsx';
 import { getProductById } from '../services/productService.js';
+import { useAuth } from '../context/AuthContext.jsx';
+import PinIcon from '../components/PinIcon.jsx';
+import { toISO } from '../utils/dates.js';
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -17,6 +20,7 @@ export default function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [sharing, setSharing] = useState(false);
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     setLoading(true);
@@ -37,6 +41,22 @@ export default function ProductDetail() {
       </div>
     );
   }
+
+  /**
+   * Historia #30: al reservar se verifica si hay sesion. Con sesion se va a la pagina de reserva
+   * (con las fechas elegidas en el calendario, si las hay); sin sesion, al login con el aviso de login obligatorio.
+   */
+  const handleReserve = (range = {}) => {
+    const params = new URLSearchParams();
+    if (range.start && range.end) {
+      params.set('checkIn', toISO(range.start));
+      params.set('checkOut', toISO(range.end));
+    }
+    const query = params.toString();
+    const target = `/productos/${product.id}/reservar${query ? `?${query}` : ''}`;
+    if (isAuthenticated) navigate(target);
+    else navigate('/login', { state: { from: target, reason: 'reserva' } });
+  };
 
   // La media se actualiza en el encabezado apenas se publica una valoracion (historia #28)
   const handleRated = (summary) =>
@@ -78,10 +98,20 @@ export default function ProductDetail() {
 
       <div className="detail-body">
         <ProductGallery images={product.images} name={product.name} />
-        {product.category && <span className="category-badge">{product.category.title}</span>}
+        <div className="detail-meta">
+          {product.category && <span className="category-badge">{product.category.title}</span>}
+          {product.location && <span className="location-text detail-location"><PinIcon size={17} /> {product.location}</span>}
+        </div>
         <p className="detail-description">{product.description}</p>
+        <div className="reserve-cta">
+          <div>
+            <strong>¿Te interesa este producto?</strong>
+            <span>Elige tus fechas y confirma tu reserva en pocos pasos.</span>
+          </div>
+          <button type="button" className="btn btn-accent" onClick={() => handleReserve()}>Reservar</button>
+        </div>
         <ProductFeatures features={product.features} />
-        <ProductAvailability productId={product.id} />
+        <ProductAvailability productId={product.id} onReserve={handleReserve} />
         <ProductReviews productId={product.id} onRated={handleRated} />
       </div>
       <ProductPolicies policies={product.policies} />

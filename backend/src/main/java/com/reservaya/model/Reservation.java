@@ -3,6 +3,7 @@ package com.reservaya.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Reserva de un producto. Ocupa las noches desde {@code startDate} (inclusive) hasta {@code endDate} (exclusivo,
@@ -31,6 +32,18 @@ public class Reservation {
     @Column(nullable = false)
     private LocalDate endDate;
 
+    // Datos opcionales del formulario de reserva (historia #32)
+    private Integer guests;
+
+    @Column(length = 30)
+    private String phone;
+
+    @Column(length = 500)
+    private String comments;
+
+    /** Momento en que se hizo la reserva. Puede ser null en reservas de ejemplo anteriores al Sprint 4. */
+    private LocalDateTime createdAt;
+
     public Reservation() {
     }
 
@@ -39,6 +52,7 @@ public class Reservation {
         this.user = user;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.createdAt = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -59,5 +73,38 @@ public class Reservation {
 
     public LocalDate getEndDate() {
         return endDate;
+    }
+
+    public Integer getGuests() {
+        return guests;
+    }
+
+    public void setGuests(Integer guests) {
+        this.guests = guests;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    /** Codigo legible para el usuario, por ejemplo RY-000042. */
+    public String getCode() {
+        return id == null ? null : "RY-%06d".formatted(id);
     }
 }

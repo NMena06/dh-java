@@ -91,6 +91,7 @@ public class ProductService {
         product.setCategory(resolveCategory(request.categoryId()));
         product.setFeatures(resolveFeatures(request.featureIds()));
         product.setPolicies(toPolicies(request.policies()));
+        product.setLocation(blankToNull(request.location()));
         return productRepository.save(product);
     }
 
@@ -111,6 +112,7 @@ public class ProductService {
         product.getFeatures().addAll(resolveFeatures(request.featureIds()));
         product.getPolicies().clear();
         product.getPolicies().addAll(toPolicies(request.policies()));
+        product.setLocation(blankToNull(request.location()));
         return productRepository.save(product);
     }
 
@@ -126,6 +128,10 @@ public class ProductService {
     public void delete(Long id) {
         Product product = findById(id);
         productRepository.delete(product);
+    }
+
+    private static String blankToNull(String value) {
+        return value == null || value.isBlank() ? null : value.trim();
     }
 
     private static List<Policy> toPolicies(List<PolicyRequest> policies) {

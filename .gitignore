@@ -20,3 +20,10 @@ frontend/dist/
 # OS
 Thumbs.db
 desktop.ini
+
+# Variables de entorno (usar los .env.example)
+.env
+.env.local
+backend/.env
+frontend/.env
+frontend/.env.local

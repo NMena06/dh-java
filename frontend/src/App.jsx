@@ -9,6 +9,10 @@ import Register from './pages/Register.jsx';
 import Login from './pages/Login.jsx';
 import Profile from './pages/Profile.jsx';
 import Favorites from './pages/Favorites.jsx';
+import Reservation from './pages/Reservation.jsx';
+import ReservationConfirmation from './pages/ReservationConfirmation.jsx';
+import MyReservations from './pages/MyReservations.jsx';
+import WhatsAppButton from './components/WhatsAppButton.jsx';
 import AdminLayout from './pages/admin/AdminLayout.jsx';
 import AdminPanel from './pages/admin/AdminPanel.jsx';
 import AdminProducts from './pages/admin/AdminProducts.jsx';
@@ -31,6 +35,9 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/mi-cuenta" element={<RequireAuth><Profile /></RequireAuth>} />
           <Route path="/favoritos" element={<RequireAuth><Favorites /></RequireAuth>} />
+          <Route path="/productos/:id/reservar" element={<RequireAuth><Reservation /></RequireAuth>} />
+          <Route path="/reservas/:id/confirmacion" element={<RequireAuth><ReservationConfirmation /></RequireAuth>} />
+          <Route path="/mis-reservas" element={<RequireAuth><MyReservations /></RequireAuth>} />
           <Route path="/administracion" element={<RequireAdmin><AdminLayout /></RequireAdmin>}>
             <Route index element={<AdminPanel />} />
             <Route path="productos" element={<AdminProducts />} />
@@ -45,6 +52,7 @@ export default function App() {
         </Routes>
       </main>
       <Footer />
+      <WhatsAppButton />
     </>
   );
 }

@@ -70,6 +70,24 @@ public class DataInitializer implements CommandLineRunner {
         seedDemoUser();
         seedPolicies();
         seedReservationsAndReviews();
+        seedLocations();
+    }
+
+    /** Ubicacion de los productos de ejemplo (Sprint 4, historia #31), solo si todavia no tienen. */
+    private void seedLocations() {
+        Map<String, String> locations = Map.of(
+                "Hotel Mirador del Lago", "San Carlos de Bariloche, Río Negro",
+                "Departamento Centro Histórico", "San Telmo, Buenos Aires",
+                "Auto Compacto Automatico", "Aeroparque Jorge Newbery, Buenos Aires",
+                "Vestido de Gala Alquiler", "Palermo, Buenos Aires",
+                "Vuelo Buenos Aires - Bariloche", "Aeroparque (AEP) → Bariloche (BRC)");
+        for (Product product : productRepository.findAll()) {
+            String location = locations.get(product.getName());
+            if (product.getLocation() == null && location != null) {
+                product.setLocation(location);
+                productRepository.save(product);
+            }
+        }
     }
 
     // ------------------------------------------------------------------ Sprint 3

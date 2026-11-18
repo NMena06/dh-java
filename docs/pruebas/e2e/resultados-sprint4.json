@@ -1,0 +1,247 @@
+{
+  "fecha": "2026-11-18T19:25:45.059Z",
+  "passed": 40,
+  "total": 40,
+  "results": [
+    {
+      "id": "30.1",
+      "desc": "Botón \"Reservar\" visible en el detalle del producto",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "30.2",
+      "desc": "Sin sesión redirige al login",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "30.3",
+      "desc": "El login indica que es obligatorio y que debe registrarse si no tiene cuenta",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "30.4",
+      "desc": "El aviso está en la parte superior del login",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "30.5",
+      "desc": "Tras iniciar sesión vuelve a la página de reserva del producto",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "30.6",
+      "desc": "Con sesión, \"Reservar\" lleva directo a la página de reserva",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "30.7",
+      "desc": "Las fechas elegidas en el detalle se cargan en la reserva",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "30.8",
+      "desc": "Buscar por fecha lista los productos disponibles en ese rango",
+      "ok": true,
+      "detail": "(Auto Compacto Automatico, Vestido de Gala Alquiler)"
+    },
+    {
+      "id": "31.1",
+      "desc": "Detalle del producto: título, ubicación, imagen, descripción e información destacada",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "31.2",
+      "desc": "Detalles adicionales: políticas del producto",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "31.3",
+      "desc": "Datos del usuario: nombre, apellido y correo",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "31.4",
+      "desc": "Posibilidad de ampliar datos (teléfono, personas, comentarios)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "31.5",
+      "desc": "Botón para confirmar la reserva",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "32.1",
+      "desc": "Sin fechas: mensaje que indica cómo solucionarlo",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "30.9",
+      "desc": "El rango elegido se imprime en los campos de fecha del formulario",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "31.6",
+      "desc": "Resumen con el período seleccionado y las noches",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "32.2",
+      "desc": "Teléfono inválido: error específico en el campo",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "32.3",
+      "desc": "Página de confirmación de reserva exitosa",
+      "ok": true,
+      "detail": "(RY-000033)"
+    },
+    {
+      "id": "32.4",
+      "desc": "Muestra los datos no obligatorios del formulario",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "35.1",
+      "desc": "Confirmación muestra el contacto del proveedor",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "30.10",
+      "desc": "La reserva no puede incluir fechas no disponibles",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "32.5",
+      "desc": "Error de reserva con mensaje específico y cómo solucionarlo",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "32.6",
+      "desc": "Tras el error se actualiza el calendario con las fechas tomadas",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "33.1",
+      "desc": "Sección \"Mis reservas\" accesible desde la cuenta",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "33.2",
+      "desc": "Cada reserva muestra producto, fecha de reserva y fechas de uso",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "33.3",
+      "desc": "Lista ordenada por fecha de uso (más reciente primero)",
+      "ok": true,
+      "detail": "(5 reservas)"
+    },
+    {
+      "id": "33.4",
+      "desc": "Filtro \"Anteriores\" muestra las reservas finalizadas",
+      "ok": true,
+      "detail": "(3)"
+    },
+    {
+      "id": "33.5",
+      "desc": "Historial en móvil sin desbordamiento",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "31.7",
+      "desc": "Página de reserva en móvil sin desbordamiento",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "34.1",
+      "desc": "Botón de WhatsApp abajo a la derecha (desktop, fijo al hacer scroll)",
+      "ok": true,
+      "detail": "(16px der., 16px abajo)"
+    },
+    {
+      "id": "34.2",
+      "desc": "Botón de WhatsApp abajo a la derecha (tablet, fijo al hacer scroll)",
+      "ok": true,
+      "detail": "(16px der., 16px abajo)"
+    },
+    {
+      "id": "34.3",
+      "desc": "Botón de WhatsApp abajo a la derecha (movil, fijo al hacer scroll)",
+      "ok": true,
+      "detail": "(16px der., 16px abajo)"
+    },
+    {
+      "id": "34.4",
+      "desc": "Sin sesión puede abrir el chat; el mensaje menciona el producto",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "34.5",
+      "desc": "Aviso de privacidad visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "34.6",
+      "desc": "Mensaje vacío: error informativo",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "34.7",
+      "desc": "Sin conexión: error informativo",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "34.8",
+      "desc": "Abre WhatsApp (wa.me) con el número del proveedor y el mensaje",
+      "ok": true,
+      "detail": "(https://wa.me/5491100000000?text=Hola, ¿hay cochera? 912908...)"
+    },
+    {
+      "id": "34.9",
+      "desc": "Notificación de éxito tras abrir WhatsApp",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "35.2",
+      "desc": "Se genera el correo de la reserva al correo del usuario registrado",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "35.3",
+      "desc": "El correo incluye producto, fechas, hora de la reserva y contacto del proveedor",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

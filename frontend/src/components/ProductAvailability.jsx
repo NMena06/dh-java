@@ -7,7 +7,7 @@ import { addMonths, bookedDaySet, formatLong, nightsBetween, startOfMonth, toISO
  * Disponibilidad del producto (historia #23): calendario doble con las fechas ocupadas destacadas.
  * Si falla la consulta, muestra un mensaje claro y la opción de reintentar.
  */
-export default function ProductAvailability({ productId }) {
+export default function ProductAvailability({ productId, onReserve }) {
   const [ranges, setRanges] = useState([]);
   const [status, setStatus] = useState('loading'); // loading | ready | error
   const [selection, setSelection] = useState({ start: null, end: null });
@@ -57,6 +57,11 @@ export default function ProductAvailability({ productId }) {
                 ? <>Del <strong>{formatLong(selection.start)}</strong> al <strong>{formatLong(selection.end)}</strong>: {nights} {nights === 1 ? 'noche' : 'noches'} disponibles.</>
                 : 'Elige la fecha de entrada y la de salida para comprobar la disponibilidad.'}
             </p>
+            {onReserve && (
+              <button type="button" className="btn btn-accent btn-block reserve-dates" onClick={() => onReserve(selection)}>
+                {nights > 0 ? 'Reservar estas fechas' : 'Reservar'}
+              </button>
+            )}
           </div>
         </div>
       )}

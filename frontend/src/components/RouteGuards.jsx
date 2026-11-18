@@ -7,7 +7,11 @@ export function RequireAuth({ children }) {
   const location = useLocation();
 
   if (checking) return <p className="page-padding">Verificando sesión...</p>;
-  if (!isAuthenticated) return <Navigate to="/login" replace state={{ from: location.pathname }} />;
+  if (!isAuthenticated) {
+    const from = location.pathname + location.search;
+    const reason = location.pathname.endsWith('/reservar') ? 'reserva' : undefined;
+    return <Navigate to="/login" replace state={{ from, reason }} />;
+  }
   return children;
 }
 

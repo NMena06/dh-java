@@ -34,6 +34,10 @@ public class Product {
     @Column(name = "image_data", nullable = false)
     private List<String> images = new ArrayList<>();
 
+    /** Ubicacion del producto (ciudad, barrio o direccion). Se muestra en el detalle y en la reserva (#31). */
+    @Column(length = 120)
+    private String location;
+
     /** Categoria del producto (historia #12). Es opcional. La imagen se omite del JSON para no inflar los listados. */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
@@ -144,5 +148,13 @@ public class Product {
     public void updateRating(double average, int count) {
         this.ratingAverage = Math.round(average * 10) / 10.0;
         this.ratingCount = count;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

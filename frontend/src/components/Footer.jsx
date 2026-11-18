@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="footer-left">
-        <img src="/logo.svg" alt="ReservaYa" className="footer-logo" />
+        <img src="/logo-light.svg" alt="ReservaYa" className="footer-logo" />
         <span className="footer-copy">© {year} ReservaYa. Todos los derechos reservados.</span>
       </div>
     </footer>

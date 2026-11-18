@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Diagrama de base de datos - ReservaYa</title>
+<style>
+  :root { --brand: #6c4fe0; --dark: #2b1a66; --line: #8f7be8; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; background: #f6f4fc; color: #1f1f2e; }
+  #canvas { position: relative; width: 1640px; height: 860px; }
+  h1 { position: absolute; left: 30px; top: 8px; margin: 0; font-size: 22px; color: var(--dark); }
+  .sub { position: absolute; left: 30px; top: 38px; font-size: 13px; color: #5d5d73; }
+  svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .table { position: absolute; width: 270px; background: #fff; border: 2px solid var(--brand); border-radius: 10px;
+           box-shadow: 0 3px 10px rgba(43, 26, 102, .12); overflow: hidden; font-size: 13px; }
+  .table h2 { margin: 0; padding: 7px 10px; background: var(--brand); color: #fff; font-size: 14px; letter-spacing: .3px; }
+  .table.join h2 { background: #9b86f0; }
+  .row { display: flex; justify-content: space-between; gap: 8px; padding: 4px 10px; border-top: 1px solid #efeafc; }
+  .row span:last-child { color: #5d5d73; font-family: Consolas, monospace; font-size: 12px; white-space: nowrap; }
+  .pk span:first-child { font-weight: 700; }
+  .pk span:first-child::before { content: "PK "; color: #c08a00; font-size: 11px; }
+  .fk span:first-child::before { content: "FK "; color: var(--brand); font-size: 11px; font-weight: 700; }
+  .null span:last-child::after { content: " ?"; color: #b0aac9; }
+  .card { font: 700 12px "Segoe UI", Arial; fill: var(--dark); }
+  .legend { position: absolute; left: 30px; bottom: 14px; font-size: 12px; color: #5d5d73; }
+</style>
+</head>
+<body>
+<div id="canvas">
+  <h1>ReservaYa · Diagrama de base de datos</h1>
+  <div class="sub">Base H2 "reservaya" · tablas generadas por JPA/Hibernate a partir de las entidades</div>
+  <svg id="links"></svg>
+
+  <div class="table" id="users" style="left:30px; top:80px">
+    <h2>users</h2>
+    <div class="row pk"><span>id</span><span>bigint</span></div>
+    <div class="row"><span>first_name</span><span>varchar(50)</span></div>
+    <div class="row"><span>last_name</span><span>varchar(50)</span></div>
+    <div class="row"><span>email (único)</span><span>varchar(120)</span></div>
+    <div class="row"><span>password (BCrypt)</span><span>varchar(100)</span></div>
+    <div class="row"><span>role (USER / ADMIN)</span><span>varchar(20)</span></div>
+    <div class="row"><span>created_at</span><span>timestamp</span></div>
+  </div>
+
+  <div class="table" id="auth_tokens" style="left:30px; top:430px">
+    <h2>auth_tokens</h2>
+    <div class="row pk"><span>token</span><span>varchar(64)</span></div>
+    <div class="row fk"><span>user_id</span><span>bigint</span></div>
+    <div class="row"><span>expires_at</span><span>timestamp</span></div>
+  </div>
+
+  <div class="table" id="reservations" style="left:370px; top:80px">
+    <h2>reservations</h2>
+    <div class="row pk"><span>id</span><span>bigint</span></div>
+    <div class="row fk"><span>product_id</span><span>bigint</span></div>
+    <div class="row fk"><span>user_id</span><span>bigint</span></div>
+    <div class="row"><span>start_date</span><span>date</span></div>
+    <div class="row"><span>end_date</span><span>date</span></div>
+    <div class="row null"><span>guests</span><span>integer</span></div>
+    <div class="row null"><span>phone</span><span>varchar(30)</span></div>
+    <div class="row null"><span>comments</span><span>varchar(500)</span></div>
+    <div class="row null"><span>created_at</span><span>timestamp</span></div>
+  </div>
+
+  <div class="table" id="reviews" style="left:370px; top:430px">
+    <h2>reviews</h2>
+    <div class="row pk"><span>id</span><span>bigint</span></div>
+    <div class="row fk"><span>product_id</span><span>bigint</span></div>
+    <div class="row fk"><span>user_id</span><span>bigint</span></div>
+    <div class="row"><span>rating (1 a 5)</span><span>integer</span></div>
+    <div class="row null"><span>comment</span><span>varchar(1000)</span></div>
+    <div class="row"><span>created_at</span><span>timestamp</span></div>
+  </div>
+
+  <div class="table" id="favorites" style="left:370px; top:665px">
+    <h2>favorites</h2>
+    <div class="row pk"><span>id</span><span>bigint</span></div>
+    <div class="row fk"><span>user_id</span><span>bigint</span></div>
+    <div class="row fk"><span>product_id</span><span>bigint</span></div>
+    <div class="row"><span>created_at</span><span>timestamp</span></div>
+  </div>
+
+  <div class="table" id="products" style="left:720px; top:260px">
+    <h2>products</h2>
+    <div class="row pk"><span>id</span><span>bigint</span></div>
+    <div class="row"><span>name (único)</span><span>varchar(100)</span></div>
+    <div class="row"><span>description</span><span>varchar(2000)</span></div>
+    <div class="row null"><span>location</span><span>varchar(120)</span></div>
+    <div class="row fk null"><span>category_id</span><span>bigint</span></div>
+    <div class="row null"><span>rating_average</span><span>double</span></div>
+    <div class="row null"><span>rating_count</span><span>integer</span></div>
+  </div>
+
+  <div class="table" id="categories" style="left:1060px; top:80px">
+    <h2>categories</h2>
+    <div class="row pk"><span>id</span><span>bigint</span></div>
+    <div class="row"><span>title (único)</span><span>varchar(60)</span></div>
+    <div class="row"><span>description</span><span>varchar(500)</span></div>
+    <div class="row"><span>image</span><span>clob</span></div>
+  </div>
+
+  <div class="table join" id="product_images" style="left:1060px; top:270px">
+    <h2>product_images</h2>
+    <div class="row fk"><span>product_id</span><span>bigint</span></div>
+    <div class="row"><span>position</span><span>integer</span></div>
+    <div class="row"><span>image_data</span><span>clob</span></div>
+  </div>
+
+  <div class="table join" id="product_policies" style="left:1060px; top:425px">
+    <h2>product_policies</h2>
+    <div class="row fk"><span>product_id</span><span>bigint</span></div>
+    <div class="row"><span>position</span><span>integer</span></div>
+    <div class="row"><span>title</span><span>varchar(80)</span></div>
+    <div class="row"><span>description</span><span>varchar(1000)</span></div>
+  </div>
+
+  <div class="table join" id="product_features" style="left:1060px; top:665px">
+    <h2>product_features</h2>
+    <div class="row fk"><span>product_id</span><span>bigint</span></div>
+    <div class="row fk"><span>feature_id</span><span>bigint</span></div>
+  </div>
+
+  <div class="table" id="features" style="left:1380px; top:640px; width:230px">
+    <h2>features</h2>
+    <div class="row pk"><span>id</span><span>bigint</span></div>
+    <div class="row"><span>name (único)</span><span>varchar(60)</span></div>
+    <div class="row"><span>icon</span><span>varchar(40)</span></div>
+  </div>
+
+  <div class="legend">PK: clave primaria · FK: clave foránea · ? : admite nulos · 1 — N: uno a muchos · Tablas lilas: colecciones y tabla intermedia (muchos a muchos)</div>
+</div>
+<script>
+  // [desde (lado 1), hasta (lado N)]
+  const links = [
+    ['users', 'auth_tokens'], ['users', 'reservations'], ['users', 'reviews'], ['users', 'favorites'],
+    ['products', 'reservations'], ['products', 'reviews'], ['products', 'favorites'],
+    ['categories', 'products'], ['products', 'product_images'], ['products', 'product_policies'],
+    ['products', 'product_features'], ['features', 'product_features'],
+  ];
+  const svg = document.getElementById('links');
+  const base = document.getElementById('canvas').getBoundingClientRect();
+  const box = (id) => {
+    const r = document.getElementById(id).getBoundingClientRect();
+    return { l: r.left - base.left, r: r.right - base.left, t: r.top - base.top, b: r.bottom - base.top, cx: (r.left + r.right) / 2 - base.left, cy: (r.top + r.bottom) / 2 - base.top };
+  };
+  const ns = 'http://www.w3.org/2000/svg';
+  const label = (x, y, text) => {
+    const t = document.createElementNS(ns, 'text');
+    t.setAttribute('x', x); t.setAttribute('y', y); t.setAttribute('class', 'card'); t.textContent = text;
+    svg.appendChild(t);
+  };
+  links.forEach(([one, many]) => {
+    const a = box(one), b = box(many);
+    let x1, y1, x2, y2, d;
+    if (b.l > a.r || a.l > b.r) {
+      const toRight = b.l > a.r;
+      x1 = toRight ? a.r : a.l; x2 = toRight ? b.l : b.r;
+      y1 = Math.max(a.t + 30, Math.min(a.b - 20, b.cy));
+      y2 = Math.max(b.t + 30, Math.min(b.b - 20, a.cy));
+      const mx = (x1 + x2) / 2;
+      d = `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`;
+      label(x1 + (toRight ? 6 : -14), y1 - 6, '1');
+      label(x2 + (toRight ? -16 : 6), y2 - 6, 'N');
+    } else {
+      x1 = x2 = Math.max(a.l, b.l) + 60; y1 = a.b; y2 = b.t;
+      d = `M${x1},${y1} L${x2},${y2}`;
+      label(x1 + 6, y1 + 16, '1'); label(x2 + 6, y2 - 6, 'N');
+    }
+    const p = document.createElementNS(ns, 'path');
+    p.setAttribute('d', d); p.setAttribute('fill', 'none'); p.setAttribute('stroke', '#8f7be8'); p.setAttribute('stroke-width', '2');
+    svg.appendChild(p);
+    [[x2, y2]].forEach(([x, y]) => {
+      const c = document.createElementNS(ns, 'circle');
+      c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', 4); c.setAttribute('fill', '#6c4fe0');
+      svg.appendChild(c);
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,5 +1,12 @@
 const SESSION_KEY = 'reservaya.session';
 
+/**
+ * URL base de la API. Por defecto "/api" (el servidor de Vite la redirige al backend, ver vite.config.js).
+ * Se puede apuntar directo al backend con VITE_API_URL=http://localhost:8080/api (ver .env.example).
+ */
+export const API_URL = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '');
+const resolve = (url) => (url.startsWith('/api') ? API_URL + url.slice(4) : url);
+
 export function readSession() {
   try {
     const raw = localStorage.getItem(SESSION_KEY);
@@ -36,7 +43,7 @@ export async function request(url, options = {}) {
   const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
   if (session?.token) headers.Authorization = `Bearer ${session.token}`;
 
-  const response = await fetch(url, { ...options, headers });
+  const response = await fetch(resolve(url), { ...options, headers });
 
   if (!response.ok) {
     let message = 'Ocurrió un error inesperado';

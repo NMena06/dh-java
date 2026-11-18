@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import FavoriteButton from './FavoriteButton.jsx';
 import { RatingSummary } from './StarRating.jsx';
+import PinIcon from './PinIcon.jsx';
 
 export default function ProductCard({ product }) {
   const cover = product.images?.[0];
@@ -14,6 +15,7 @@ export default function ProductCard({ product }) {
       <div className="product-card-body">
         {product.category && <span className="category-badge small">{product.category.title}</span>}
         <h3>{product.name}</h3>
+        {product.location && <span className="location-text"><PinIcon /> {product.location}</span>}
         <RatingSummary average={product.ratingAverage} count={product.ratingCount} compact />
         <p>{product.description}</p>
         <Link to={`/productos/${product.id}`} className="btn btn-primary">Ver detalle</Link>

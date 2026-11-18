@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import ProductGallery from '../components/ProductGallery.jsx';
+import ProductFeatures from '../components/ProductFeatures.jsx';
 import { getProductById } from '../services/productService.js';
 
 export default function ProductDetail() {
@@ -55,7 +56,9 @@ export default function ProductDetail() {
 
       <div className="detail-body">
         <ProductGallery images={product.images} name={product.name} />
+        {product.category && <span className="category-badge">{product.category.title}</span>}
         <p className="detail-description">{product.description}</p>
+        <ProductFeatures features={product.features} />
       </div>
     </div>
   );

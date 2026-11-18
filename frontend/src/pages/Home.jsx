@@ -1,40 +1,71 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ProductCard from '../components/ProductCard.jsx';
 import Pagination from '../components/Pagination.jsx';
 import { getProductsPage, getRandomProducts } from '../services/productService.js';
+import { getCategories } from '../services/catalogService.js';
 
-const CATEGORIES = [
-  { name: 'Hoteles', description: 'Alojamientos para tu estadia' },
-  { name: 'Vuelos', description: 'Viaja a cualquier destino' },
-  { name: 'Alquileres de moda', description: 'Vestidos y accesorios' },
-  { name: 'Autos', description: 'Alquila el auto que necesites' },
-];
+const PAGE_SIZE = 10;
 
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const [pageData, setPageData] = useState({ content: [], page: 0, totalPages: 0, totalElements: 0 });
+  const [categories, setCategories] = useState([]);
+  const [categoriesError, setCategoriesError] = useState('');
+  const [selected, setSelected] = useState([]);
+
+  const [page, setPage] = useState(0);
+  const [pageData, setPageData] = useState({ content: [], totalPages: 0, totalElements: 0, totalProducts: 0 });
+  const [pageLoading, setPageLoading] = useState(true);
   const [pageError, setPageError] = useState('');
+  const resultsRef = useRef(null);
 
   useEffect(() => {
     getRandomProducts(10)
       .then(setProducts)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
+    getCategories()
+      .then(setCategories)
+      .catch((err) => setCategoriesError(err.message));
   }, []);
 
+  // Historia #20: los resultados se recalculan al cambiar de pagina o de filtro
+  const selectedKey = selected.join(',');
   useEffect(() => {
-    getProductsPage(pageData.page, 10)
-      .then((data) => setPageData(data))
-      .catch((err) => setPageError(err.message));
-  }, [pageData.page]);
+    let cancelled = false;
+    setPageLoading(true);
+    setPageError('');
+    getProductsPage(page, PAGE_SIZE, selected)
+      .then((data) => !cancelled && setPageData(data))
+      .catch((err) => !cancelled && setPageError(err.message))
+      .finally(() => !cancelled && setPageLoading(false));
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, selectedKey]);
+
+  const scrollToResults = () => resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  const toggleCategory = (id) => {
+    setSelected((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+    setPage(0);
+  };
+
+  const clearFilters = () => {
+    setSelected([]);
+    setPage(0);
+  };
 
   const changePage = (newPage) => {
-    setPageData((prev) => ({ ...prev, page: newPage }));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setPage(newPage);
+    scrollToResults();
   };
+
+  const hasFilters = selected.length > 0;
+  const selectedNames = categories.filter((c) => selected.includes(c.id)).map((c) => c.title);
 
   return (
     <div className="home">
@@ -49,13 +80,29 @@ export default function Home() {
 
       <section className="home-section">
         <h2>Buscar por categoría</h2>
+        {categoriesError && <p className="error-text">{categoriesError}</p>}
         <div className="category-grid">
-          {CATEGORIES.map((category) => (
-            <div key={category.name} className="category-card">
-              <h3>{category.name}</h3>
-              <p>{category.description}</p>
-            </div>
-          ))}
+          {categories.map((category) => {
+            const active = selected.includes(category.id);
+            return (
+              <button
+                key={category.id}
+                type="button"
+                className={`category-card ${active ? 'active' : ''}`}
+                aria-pressed={active}
+                onClick={() => {
+                  toggleCategory(category.id);
+                  scrollToResults();
+                }}
+              >
+                <img src={category.image} alt="" className="category-image" />
+                <span className="category-body">
+                  <strong>{category.title}</strong>
+                  <span>{category.description}</span>
+                </span>
+              </button>
+            );
+          })}
         </div>
       </section>
 
@@ -71,15 +118,57 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="home-section">
-        <h2>Todos los productos</h2>
+      <section className="home-section results-section" ref={resultsRef} aria-labelledby="results-title">
+        <h2 id="results-title">Todos los productos</h2>
+
+        <div className="filter-bar" role="group" aria-label="Filtrar por categoría">
+          <span className="filter-label">Filtrar por categoría:</span>
+          <div className="filter-chips">
+            {categories.map((category) => {
+              const active = selected.includes(category.id);
+              return (
+                <label key={category.id} className={`chip ${active ? 'active' : ''}`}>
+                  <input type="checkbox" checked={active} onChange={() => toggleCategory(category.id)} />
+                  {category.title}
+                </label>
+              );
+            })}
+          </div>
+          {hasFilters && (
+            <button type="button" className="btn btn-outline-dark btn-sm clear-filters" onClick={clearFilters}>
+              Limpiar filtros
+            </button>
+          )}
+        </div>
+
+        <p className="results-count" aria-live="polite">
+          {hasFilters ? (
+            <>
+              Mostrando <strong>{pageData.totalElements}</strong> de <strong>{pageData.totalProducts}</strong> productos
+              {' '}en {selectedNames.join(', ')}
+            </>
+          ) : (
+            <>
+              <strong>{pageData.totalProducts}</strong> productos en total
+            </>
+          )}
+        </p>
+
         {pageError && <p className="error-text">{pageError}</p>}
-        <div className="product-grid">
+        {!pageLoading && !pageError && pageData.content.length === 0 && (
+          <div className="empty-results">
+            <p>No hay productos en las categorías seleccionadas.</p>
+            {hasFilters && (
+              <button type="button" className="btn btn-primary" onClick={clearFilters}>Ver todos los productos</button>
+            )}
+          </div>
+        )}
+        <div className={`product-grid ${pageLoading ? 'is-loading' : ''}`}>
           {pageData.content.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
-        <Pagination page={pageData.page} totalPages={pageData.totalPages} onChange={changePage} />
+        <Pagination page={page} totalPages={pageData.totalPages} onChange={changePage} />
       </section>
     </div>
   );

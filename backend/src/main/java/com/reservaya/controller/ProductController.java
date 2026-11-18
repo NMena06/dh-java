@@ -1,6 +1,7 @@
 package com.reservaya.controller;
 
-import com.reservaya.dto.PageResponse;
+import com.reservaya.dto.CategoryAssignmentRequest;
+import com.reservaya.dto.ProductPageResponse;
 import com.reservaya.dto.ProductRequest;
 import com.reservaya.model.Product;
 import com.reservaya.service.ProductService;
@@ -33,12 +34,14 @@ public class ProductController {
         return productService.findRandom(safeLimit);
     }
 
+    /** Paginado; con {@code categoryIds=1,2} filtra por una o varias categorias (historia #20). */
     @GetMapping("/page")
-    public PageResponse<Product> findPage(@RequestParam(defaultValue = "0") int page,
-                                          @RequestParam(defaultValue = "10") int size) {
+    public ProductPageResponse findPage(@RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "10") int size,
+                                        @RequestParam(required = false) List<Long> categoryIds) {
         int safePage = Math.max(0, page);
         int safeSize = Math.max(1, Math.min(size, HOME_LIMIT));
-        return productService.findPage(safePage, safeSize);
+        return productService.findPage(safePage, safeSize, categoryIds);
     }
 
     @GetMapping("/{id}")
@@ -50,6 +53,16 @@ public class ProductController {
     @ResponseStatus(HttpStatus.CREATED)
     public Product create(@Valid @RequestBody ProductRequest request) {
         return productService.create(request);
+    }
+
+    @PutMapping("/{id}")
+    public Product update(@PathVariable Long id, @Valid @RequestBody ProductRequest request) {
+        return productService.update(id, request);
+    }
+
+    @PatchMapping("/{id}/category")
+    public Product assignCategory(@PathVariable Long id, @RequestBody CategoryAssignmentRequest request) {
+        return productService.assignCategory(id, request.categoryId());
     }
 
     @DeleteMapping("/{id}")

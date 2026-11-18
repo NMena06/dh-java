@@ -34,7 +34,7 @@ const check = (id, desc, ok, detail = '') => {
   // ---- #1 / #2 / #7 Home desktop ----
   let page = await newPage(1366, 900);
   await page.goto(BASE, { waitUntil: 'networkidle' });
-  check('1.1', 'Header con logo y botones', await page.locator('header img[alt="ReservaYa"]').count() === 1 && await page.getByRole('button', { name: 'Crear cuenta' }).count() === 1);
+  check('1.1', 'Header con logo y botones', await page.locator('header img[alt="ReservaYa"]').count() === 1 && await page.getByRole('link', { name: 'Crear cuenta' }).count() === 1);
   const headerPos = await page.locator('header').evaluate((el) => getComputedStyle(el).position);
   check('1.2', 'Header fijo (position: fixed)', headerPos === 'fixed', headerPos);
   await page.locator('.main h1').first().waitFor();

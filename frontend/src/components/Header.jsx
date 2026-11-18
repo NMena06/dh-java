@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext.jsx';
+import UserMenu from './UserMenu.jsx';
 
 export default function Header() {
+  const { isAuthenticated, user } = useAuth();
+
   return (
     <header className="header">
       <div className="header-left">
@@ -10,8 +14,14 @@ export default function Header() {
         </Link>
       </div>
       <div className="header-right">
-        <button type="button" className="btn btn-outline">Crear cuenta</button>
-        <button type="button" className="btn btn-primary">Iniciar sesión</button>
+        {isAuthenticated && user ? (
+          <UserMenu />
+        ) : (
+          <>
+            <Link to="/registro" className="btn btn-outline">Crear cuenta</Link>
+            <Link to="/login" className="btn btn-primary">Iniciar sesión</Link>
+          </>
+        )}
       </div>
     </header>
   );

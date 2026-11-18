@@ -7,6 +7,8 @@ backend/data/
 
 # Frontend
 frontend/node_modules/
+docs/pruebas/e2e/node_modules/
+docs/pruebas/e2e/package*.json
 frontend/dist/
 *.log
 

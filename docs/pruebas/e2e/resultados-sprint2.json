@@ -1,0 +1,295 @@
+{
+  "fecha": "2026-11-18T18:31:44.360Z",
+  "passed": 48,
+  "total": 48,
+  "results": [
+    {
+      "id": "13.1",
+      "desc": "Botón \"Crear cuenta\" abre el formulario de registro",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "13.2",
+      "desc": "Enviar vacío muestra error en los 4 campos obligatorios",
+      "ok": true,
+      "detail": "(4 errores)"
+    },
+    {
+      "id": "13.3",
+      "desc": "Nombre corto, apellido con números, correo y contraseña inválidos",
+      "ok": true,
+      "detail": "(El nombre debe tener entre 2 y 50 caracteres | El apellido solo puede contener letras | El correo electrónico no es válido | La contraseña debe tener entre 8 y 64 caracteres | Las contraseñas no coinciden)"
+    },
+    {
+      "id": "13.4",
+      "desc": "Contraseñas distintas",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "13.5",
+      "desc": "Registro válido muestra confirmación con nombre y correo",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "19.1",
+      "desc": "Opción \"Reenviar correo de confirmación\" funciona",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "13.6",
+      "desc": "Correo ya registrado (sin distinguir mayúsculas) muestra error",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "14.1",
+      "desc": "Credenciales incorrectas muestran mensaje claro",
+      "ok": true,
+      "detail": "(Correo electrónico o contraseña incorrectos. Revisa los datos e inténtalo de nuevo.)"
+    },
+    {
+      "id": "14.2",
+      "desc": "Login válido muestra avatar con iniciales",
+      "ok": true,
+      "detail": "(AP)"
+    },
+    {
+      "id": "14.3",
+      "desc": "Login válido muestra el nombre del usuario",
+      "ok": true,
+      "detail": "(Ana María Pérez)"
+    },
+    {
+      "id": "14.4",
+      "desc": "Ya no se muestran \"Crear cuenta\" / \"Iniciar sesión\"",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "14.5",
+      "desc": "Accede a su información personal (Mi cuenta)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "14.6",
+      "desc": "La sesión se mantiene al recargar la página",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "16.1",
+      "desc": "Usuario común ve \"Acceso denegado\" en /administracion",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "15.1",
+      "desc": "Opción \"Cerrar sesión\" debajo del avatar",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "15.2",
+      "desc": "Tras cerrar sesión vuelve a ver \"Crear cuenta\" e \"Iniciar sesión\"",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "15.3",
+      "desc": "El token anterior queda invalidado en el servidor",
+      "ok": true,
+      "detail": "(HTTP 401)"
+    },
+    {
+      "id": "15.4",
+      "desc": "Sin sesión, \"Mi cuenta\" redirige al login",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "15.5",
+      "desc": "Sigue navegando como anónimo (home con productos)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "16.2",
+      "desc": "Admin ve el panel con categorías, características y usuarios",
+      "ok": true,
+      "detail": "(Agregar producto, Lista de productos, Agregar categoría, Lista de categorías, Administrar características, Usuarios)"
+    },
+    {
+      "id": "16.3",
+      "desc": "Listado de usuarios permite otorgar el permiso",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "16.4",
+      "desc": "El admin no puede quitarse sus propios permisos",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "16.5",
+      "desc": "El nuevo admin accede al panel",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "16.6",
+      "desc": "Al quitar el permiso, la API lo rechaza de inmediato (mismo token)",
+      "ok": true,
+      "detail": "(HTTP 403)"
+    },
+    {
+      "id": "21.1",
+      "desc": "Categoría con título, descripción e imagen aparece en la lista",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "17.1",
+      "desc": "Lista de características con Editar y Eliminar",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "17.2",
+      "desc": "\"Añadir nueva\" registra nombre e ícono",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "17.3",
+      "desc": "Editar característica",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "12.1",
+      "desc": "Registrar producto con categoría",
+      "ok": true,
+      "detail": "(Cabañas 675883)"
+    },
+    {
+      "id": "12.2",
+      "desc": "Asignar categoría a producto existente desde la lista",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "17.4",
+      "desc": "Producto asociado a varias características",
+      "ok": true,
+      "detail": "(6)"
+    },
+    {
+      "id": "12.3",
+      "desc": "Editar producto precarga categoría y características",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "12.4",
+      "desc": "Editar producto cambia la categoría",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "18.1",
+      "desc": "Bloque con título \"Características\"",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "18.2",
+      "desc": "Lista todas las características del producto",
+      "ok": true,
+      "detail": "(6)"
+    },
+    {
+      "id": "18.3",
+      "desc": "Cada característica tiene ícono",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "18.4",
+      "desc": "Responsivo desktop: 4 columna(s), sin desbordamiento",
+      "ok": true,
+      "detail": "(4 col.)"
+    },
+    {
+      "id": "18.5",
+      "desc": "Responsivo tablet: 2 columna(s), sin desbordamiento",
+      "ok": true,
+      "detail": "(2 col.)"
+    },
+    {
+      "id": "18.6",
+      "desc": "Responsivo movil: 1 columna(s), sin desbordamiento",
+      "ok": true,
+      "detail": "(1 col.)"
+    },
+    {
+      "id": "17.5",
+      "desc": "Eliminar característica la quita de la lista y del producto",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "20.1",
+      "desc": "Categorías del backend en el home y en la barra de filtro",
+      "ok": true,
+      "detail": "(5)"
+    },
+    {
+      "id": "20.2",
+      "desc": "Filtrar por una categoría muestra solo sus productos",
+      "ok": true,
+      "detail": "(Cabaña del Bosque 675883)"
+    },
+    {
+      "id": "20.3",
+      "desc": "Muestra cantidad filtrada y total",
+      "ok": true,
+      "detail": "(Mostrando 1 de 6 productos en Cabañas 675883)"
+    },
+    {
+      "id": "20.4",
+      "desc": "Seleccionar varias categorías suma resultados",
+      "ok": true,
+      "detail": "(Mostrando 3 de 6 productos en Cabañas 675883, Hoteles)"
+    },
+    {
+      "id": "20.5",
+      "desc": "Limpiar filtros vuelve a la lista original",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "20.6",
+      "desc": "Clic en una tarjeta de categoría aplica el filtro",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "20.7",
+      "desc": "Filtro en móvil (390px) sin desbordamiento",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "14.7",
+      "desc": "Header con avatar en móvil sin desbordamiento",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

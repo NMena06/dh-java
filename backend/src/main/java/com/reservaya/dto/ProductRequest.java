@@ -5,7 +5,11 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;
+import java.util.Set;
 
+/**
+ * Datos para registrar o editar un producto. La categoria y las caracteristicas son opcionales.
+ */
 public record ProductRequest(
         @NotBlank(message = "El nombre es obligatorio")
         @Size(max = 100, message = "El nombre no puede superar los 100 caracteres")
@@ -16,6 +20,13 @@ public record ProductRequest(
         String description,
 
         @NotEmpty(message = "Debes subir al menos una imagen")
-        List<@NotBlank(message = "Imagen invalida") String> images
+        List<@NotBlank(message = "Imagen invalida") String> images,
+
+        Long categoryId,
+
+        Set<Long> featureIds
 ) {
+    public ProductRequest(String name, String description, List<String> images) {
+        this(name, description, images, null, null);
+    }
 }

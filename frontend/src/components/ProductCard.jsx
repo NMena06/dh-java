@@ -9,6 +9,7 @@ export default function ProductCard({ product }) {
         {cover ? <img src={cover} alt={product.name} /> : <div className="no-image">Sin imagen</div>}
       </div>
       <div className="product-card-body">
+        {product.category && <span className="category-badge small">{product.category.title}</span>}
         <h3>{product.name}</h3>
         <p>{product.description}</p>
         <Link to={`/productos/${product.id}`} className="btn btn-primary">Ver detalle</Link>

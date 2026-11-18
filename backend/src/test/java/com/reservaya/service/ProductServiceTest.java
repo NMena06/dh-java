@@ -1,10 +1,12 @@
 package com.reservaya.service;
 
-import com.reservaya.dto.PageResponse;
+import com.reservaya.dto.ProductPageResponse;
 import com.reservaya.dto.ProductRequest;
 import com.reservaya.exception.DuplicateProductNameException;
 import com.reservaya.exception.ResourceNotFoundException;
 import com.reservaya.model.Product;
+import com.reservaya.repository.CategoryRepository;
+import com.reservaya.repository.FeatureRepository;
 import com.reservaya.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,11 +35,17 @@ class ProductServiceTest {
     @Mock
     private ProductRepository repository;
 
+    @Mock
+    private CategoryRepository categoryRepository;
+
+    @Mock
+    private FeatureRepository featureRepository;
+
     private ProductService service;
 
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
-        service = new ProductService(repository);
+        service = new ProductService(repository, categoryRepository, featureRepository);
     }
 
     private List<Product> products(int count) {
@@ -105,13 +113,14 @@ class ProductServiceTest {
         Page<Product> page = new PageImpl<>(products(10), PageRequest.of(1, 10), 25);
         when(repository.findAll(any(PageRequest.class))).thenReturn(page);
 
-        PageResponse<Product> response = service.findPage(1, 10);
+        ProductPageResponse response = service.findPage(1, 10, null);
 
         assertThat(response.page()).isEqualTo(1);
         assertThat(response.size()).isEqualTo(10);
         assertThat(response.totalPages()).isEqualTo(3);
         assertThat(response.totalElements()).isEqualTo(25);
         assertThat(response.content()).hasSize(10);
+        assertThat(response.totalProducts()).isEqualTo(25);
     }
 
     @Test

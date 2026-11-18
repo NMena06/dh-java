@@ -1,9 +1,12 @@
 package com.reservaya.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -30,13 +33,27 @@ public class Product {
     @Column(name = "image_data", nullable = false)
     private List<String> images = new ArrayList<>();
 
+    /** Categoria del producto (historia #12). Es opcional. La imagen se omite del JSON para no inflar los listados. */
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    @JsonIgnoreProperties({"image", "description"})
+    private Category category;
+
+    /** Caracteristicas asociadas (historias #17 y #18). */
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "product_features",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "feature_id"))
+    @OrderBy("name ASC")
+    private Set<Feature> features = new LinkedHashSet<>();
+
     public Product() {
     }
 
     public Product(String name, String description, List<String> images) {
         this.name = name;
         this.description = description;
-        this.images = images;
+        this.images = images == null ? new ArrayList<>() : new ArrayList<>(images);
     }
 
     public Long getId() {
@@ -65,5 +82,21 @@ public class Product {
 
     public void setImages(List<String> images) {
         this.images = images;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Set<Feature> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(Set<Feature> features) {
+        this.features = features;
     }
 }

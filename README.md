@@ -58,7 +58,3 @@ Códigos de error: 400 (validación), 404 (no existe), 409 (nombre duplicado).
 - [Bitácora del Sprint 1](docs/bitacora-sprint-1.md)
 - [Identidad de marca y paleta](docs/identidad/paleta.md)
 - [Plan de pruebas](docs/pruebas/plan-de-pruebas.md)
-
-## Tablero
-
-Historias de usuario en Trello: _(agregar enlace del tablero)_

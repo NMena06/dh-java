@@ -15,12 +15,12 @@
 
 | Rol | Responsable |
 |---|---|
-| Scrum Master | _(completar)_ |
-| TL Testing | _(completar)_ |
-| TL Frontend | _(completar)_ |
-| TL Backend | _(completar)_ |
-| TL BBDD | _(completar)_ |
-| TL Infra | _(completar)_ |
+| Scrum Master | NMena06 |
+| TL Testing | NMena06 |
+| TL Frontend | NMena06 |
+| TL Backend | NMena06 |
+| TL BBDD | NMena06 |
+| TL Infra | NMena06 |
 
 ## 3. Historias de usuario
 

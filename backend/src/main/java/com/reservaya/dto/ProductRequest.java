@@ -1,5 +1,6 @@
 package com.reservaya.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Datos para registrar o editar un producto. La categoria y las caracteristicas son opcionales.
+ * Datos para registrar o editar un producto. Categoria, caracteristicas y politicas son opcionales.
  */
 public record ProductRequest(
         @NotBlank(message = "El nombre es obligatorio")
@@ -24,9 +25,16 @@ public record ProductRequest(
 
         Long categoryId,
 
-        Set<Long> featureIds
+        Set<Long> featureIds,
+
+        @Size(max = 12, message = "Se admiten hasta 12 politicas")
+        List<@Valid PolicyRequest> policies
 ) {
     public ProductRequest(String name, String description, List<String> images) {
-        this(name, description, images, null, null);
+        this(name, description, images, null, null, null);
+    }
+
+    public ProductRequest(String name, String description, List<String> images, Long categoryId, Set<Long> featureIds) {
+        this(name, description, images, categoryId, featureIds, null);
     }
 }

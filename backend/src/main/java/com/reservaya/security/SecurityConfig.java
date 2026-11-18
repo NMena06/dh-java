@@ -25,7 +25,7 @@ import java.util.Map;
  * Reglas de acceso (historias #14, #15 y #16):
  * - Lectura de productos, categorias y caracteristicas: publica.
  * - Registro, login y reenvio de correo: publicos.
- * - /api/auth/me y /api/auth/logout: requieren sesion.
+ * - /api/auth/me, /api/auth/logout, favoritos y valorar productos: requieren sesion.
  * - Altas, ediciones y bajas, y gestion de usuarios: solo ROLE_ADMIN.
  */
 @Configuration
@@ -59,6 +59,9 @@ public class SecurityConfig {
                                 ant(HttpMethod.GET, "/api/categories/**"),
                                 ant(HttpMethod.GET, "/api/features/**")).permitAll()
                         .requestMatchers(ant(null, "/api/auth/**")).authenticated()
+                        // Sprint 3: valorar (#28) y favoritos (#24, #25) requieren sesion, no rol admin
+                        .requestMatchers(ant(HttpMethod.POST, "/api/products/*/reviews")).authenticated()
+                        .requestMatchers(ant(null, "/api/favorites/**")).authenticated()
                         .requestMatchers(
                                 ant(null, "/api/products/**"),
                                 ant(null, "/api/categories/**"),

@@ -4,6 +4,8 @@ import com.reservaya.model.*;
 import com.reservaya.repository.CategoryRepository;
 import com.reservaya.repository.FeatureRepository;
 import com.reservaya.repository.ProductRepository;
+import com.reservaya.repository.ReservationRepository;
+import com.reservaya.repository.ReviewRepository;
 import com.reservaya.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -29,6 +32,8 @@ public class DataInitializer implements CommandLineRunner {
     private final FeatureRepository featureRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ReservationRepository reservationRepository;
+    private final ReviewRepository reviewRepository;
     private final String adminEmail;
     private final String adminPassword;
 
@@ -37,6 +42,8 @@ public class DataInitializer implements CommandLineRunner {
                            FeatureRepository featureRepository,
                            UserRepository userRepository,
                            PasswordEncoder passwordEncoder,
+                           ReservationRepository reservationRepository,
+                           ReviewRepository reviewRepository,
                            @Value("${app.admin.email:admin@reservaya.com}") String adminEmail,
                            @Value("${app.admin.password:Admin1234}") String adminPassword) {
         this.productRepository = productRepository;
@@ -44,6 +51,8 @@ public class DataInitializer implements CommandLineRunner {
         this.featureRepository = featureRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.reservationRepository = reservationRepository;
+        this.reviewRepository = reviewRepository;
         this.adminEmail = adminEmail;
         this.adminPassword = adminPassword;
     }
@@ -58,6 +67,99 @@ public class DataInitializer implements CommandLineRunner {
         if (newCategories || newFeatures) {
             linkSampleProducts();
         }
+        seedDemoUser();
+        seedPolicies();
+        seedReservationsAndReviews();
+    }
+
+    // ------------------------------------------------------------------ Sprint 3
+
+    private static final String DEMO_EMAIL = "usuario@reservaya.com";
+
+    /** Usuario comun de demostracion, con reservas finalizadas para poder valorar (historia #28). */
+    private void seedDemoUser() {
+        if (userRepository.existsByEmailIgnoreCase(DEMO_EMAIL)) {
+            return;
+        }
+        userRepository.save(new User("Lucia", "Fernandez", DEMO_EMAIL, passwordEncoder.encode("Usuario1234"), Role.USER));
+        log.info("Usuario de demostracion creado: {}", DEMO_EMAIL);
+    }
+
+    /** Politicas de uso (historia #26) para los productos que todavia no tienen. */
+    private void seedPolicies() {
+        // Solo en la primera carga del Sprint 3 (todavia sin reservas): no pisa productos creados despues sin politicas
+        if (reservationRepository.count() > 0) {
+            return;
+        }
+        for (Product product : productRepository.findAll()) {
+            if (!product.getPolicies().isEmpty()) {
+                continue;
+            }
+            String category = product.getCategory() != null ? product.getCategory().getTitle() : "";
+            product.getPolicies().addAll(defaultPolicies(category));
+            productRepository.save(product);
+        }
+    }
+
+    static List<Policy> defaultPolicies(String category) {
+        return switch (category) {
+            case "Autos" -> List.of(
+                    new Policy("Requisitos del conductor", "Licencia de conducir vigente, documento de identidad y tarjeta de crédito a nombre del titular. Edad mínima 21 años."),
+                    new Policy("Combustible y kilometraje", "El vehículo se entrega con tanque lleno y debe devolverse igual. Kilometraje ilimitado dentro del país."),
+                    new Policy("Cancelación", "Cancelación gratuita hasta 48 horas antes del retiro. Después se cobra un día de alquiler."));
+            case "Vuelos" -> List.of(
+                    new Policy("Equipaje", "Incluye un equipaje de mano de hasta 8 kg. El equipaje en bodega se abona por separado."),
+                    new Policy("Presentación", "Presentarse en el aeropuerto 2 horas antes de la salida con documento vigente."),
+                    new Policy("Cambios y cancelación", "Cambios de fecha con cargo hasta 24 horas antes del vuelo. Pasajes no reembolsables."));
+            case "Alquileres de moda" -> List.of(
+                    new Policy("Cuidado de la prenda", "No lavar ni planchar la prenda. La limpieza profesional está incluida en el precio."),
+                    new Policy("Devolución", "Devolver dentro del plazo reservado en la misma funda en que se entregó."),
+                    new Policy("Daños", "Manchas permanentes, roturas o pérdida de accesorios se cobran según el valor de reposición."));
+            default -> List.of(
+                    new Policy("Normas de la casa", "Check-in desde las 14:00 y check-out hasta las 10:00. No se permiten fiestas ni eventos. Horario de descanso de 22:00 a 8:00."),
+                    new Policy("Salud y seguridad", "Detector de humo y extintor disponibles. Se solicita no fumar dentro de las habitaciones."),
+                    new Policy("Política de cancelación", "Cancelación gratuita hasta 72 horas antes de la llegada. Después se cobra la primera noche."));
+        };
+    }
+
+    /**
+     * Reservas de ejemplo relativas a hoy: futuras para ver fechas ocupadas (historia #23) y pasadas
+     * (finalizadas) para habilitar valoraciones (historia #28). Solo si no hay reservas.
+     */
+    private void seedReservationsAndReviews() {
+        if (reservationRepository.count() > 0) {
+            return;
+        }
+        Optional<User> demo = userRepository.findByEmailIgnoreCase(DEMO_EMAIL);
+        Optional<User> admin = userRepository.findByEmailIgnoreCase(adminEmail);
+        if (demo.isEmpty() || admin.isEmpty()) {
+            return;
+        }
+        LocalDate today = LocalDate.now();
+        List<Product> products = productRepository.findAll();
+        int offset = 0;
+        for (Product product : products) {
+            // Futuras: tres bloques ocupados por producto, desplazados para que no coincidan entre productos
+            reservationRepository.save(new Reservation(product, admin.get(), today.plusDays(3 + offset), today.plusDays(7 + offset)));
+            reservationRepository.save(new Reservation(product, admin.get(), today.plusDays(15 + offset), today.plusDays(18 + offset)));
+            reservationRepository.save(new Reservation(product, admin.get(), today.plusDays(34 + offset), today.plusDays(40 + offset)));
+            offset = (offset + 2) % 8;
+        }
+        // Finalizadas: el usuario demo puede valorar estos productos; el admin ya valoro el hotel
+        for (String name : List.of("Hotel Mirador del Lago", "Auto Compacto Automatico", "Departamento Centro Histórico")) {
+            products.stream().filter(p -> p.getName().equals(name)).findFirst().ifPresent(p ->
+                    reservationRepository.save(new Reservation(p, demo.get(), today.minusDays(20), today.minusDays(16))));
+        }
+        products.stream().filter(p -> p.getName().equals("Hotel Mirador del Lago")).findFirst().ifPresent(p -> {
+            reservationRepository.save(new Reservation(p, admin.get(), today.minusDays(40), today.minusDays(37)));
+            if (reviewRepository.findByProductIdAndUserId(p.getId(), admin.get().getId()).isEmpty()) {
+                Review review = new Review(p, admin.get(), 5, "Excelente ubicacion y atencion. La vista al lago es increible.");
+                review.setCreatedAt(today.minusDays(36).atTime(10, 30));
+                reviewRepository.save(review);
+                p.updateRating(5, 1);
+                productRepository.save(p);
+            }
+        });
     }
 
     /** Primer administrador: sin el no habria forma de otorgar permisos a otros usuarios (historia #16). */

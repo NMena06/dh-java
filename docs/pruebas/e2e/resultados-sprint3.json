@@ -1,0 +1,337 @@
+{
+  "fecha": "2026-11-18T19:03:23.375Z",
+  "passed": 55,
+  "total": 55,
+  "results": [
+    {
+      "id": "22.1",
+      "desc": "Bloque con título visible y párrafo descriptivo",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "22.2",
+      "desc": "Etiquetas claras y botón \"Realizar búsqueda\"",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "22.3",
+      "desc": "Sugerencias de autocompletado al escribir",
+      "ok": true,
+      "detail": "(▦, ⌕)"
+    },
+    {
+      "id": "22.4",
+      "desc": "Resalta la parte coincidente",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "22.5",
+      "desc": "Elegir una sugerencia con teclado autocompleta y busca",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "22.6",
+      "desc": "Resultados relevantes: coincidencia en el nombre primero",
+      "ok": true,
+      "detail": "(Hotel Mirador del Lago)"
+    },
+    {
+      "id": "22.7",
+      "desc": "Resultados con cantidad y criterio",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "22.8",
+      "desc": "Se mantienen las secciones de categorías y recomendaciones",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "22.9",
+      "desc": "Calendario doble: dos meses visibles",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "22.10",
+      "desc": "Días pasados deshabilitados",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "22.11",
+      "desc": "Selección de rango (entrada y salida)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "22.12",
+      "desc": "Con fechas excluye productos ocupados (el hotel reservado no aparece)",
+      "ok": true,
+      "detail": "(sin resultados)"
+    },
+    {
+      "id": "22.13",
+      "desc": "Sin resultados muestra un mensaje claro",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "22.14",
+      "desc": "\"Limpiar búsqueda\" oculta los resultados",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "22.15",
+      "desc": "Móvil: buscador y calendario apilado, sin desbordamiento",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "23.1",
+      "desc": "Calendario doble en el detalle del producto",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "23.2",
+      "desc": "Fechas reservadas destacadas (color distinto y tachadas)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "23.3",
+      "desc": "Leyenda Disponible / Ocupado",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "23.4",
+      "desc": "No permite un rango que incluya noches ocupadas",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "23.5",
+      "desc": "Rango libre muestra las noches disponibles",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "23.6",
+      "desc": "Error al obtener disponibilidad: mensaje claro",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "23.7",
+      "desc": "Opción \"Reintentar\" vuelve a cargar el calendario",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "26.1",
+      "desc": "Bloque de políticas al 100% del contenedor",
+      "ok": true,
+      "detail": "(1366 / 1366 px)"
+    },
+    {
+      "id": "26.2",
+      "desc": "Título identificable y subrayado",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "26.3",
+      "desc": "Políticas distribuidas en columnas",
+      "ok": true,
+      "detail": "(3 col.)"
+    },
+    {
+      "id": "26.4",
+      "desc": "Cada política con título y descripción",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "28.1",
+      "desc": "Puntuación media y cantidad visibles en el detalle",
+      "ok": true,
+      "detail": "(5.0 (1 valoración))"
+    },
+    {
+      "id": "28.2",
+      "desc": "Reseña con estrellas, nombre, fecha y comentario",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "28.3",
+      "desc": "Anónimo: invitación a iniciar sesión para valorar",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "27.1",
+      "desc": "Botón compartir abre una ventana emergente",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "27.2",
+      "desc": "Muestra imagen, descripción breve y enlace directo",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "27.3",
+      "desc": "Opciones Facebook, X (Twitter) e Instagram",
+      "ok": true,
+      "detail": "(Facebook, X (Twitter), WhatsApp, Instagram)"
+    },
+    {
+      "id": "27.4",
+      "desc": "Elige red y mensaje personalizado: abre X con el texto y el enlace",
+      "ok": true,
+      "detail": "(https://twitter.com/intent/tweet?text=Mi recomendación 578698&url=http://localho...)"
+    },
+    {
+      "id": "27.5",
+      "desc": "Facebook abre su página de compartir con el enlace",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "27.6",
+      "desc": "La ventana se cierra con Escape",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "24.1",
+      "desc": "Botón de favorito en cada producto del home",
+      "ok": true,
+      "detail": "(10)"
+    },
+    {
+      "id": "24.2",
+      "desc": "Anónimo: el corazón lleva al login",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "24.3",
+      "desc": "Usuario autenticado marca favorito con un clic",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "24.4",
+      "desc": "El estado se refleja en todas las tarjetas del mismo producto",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "24.5",
+      "desc": "Marcar y desmarcar se guarda en el servidor",
+      "ok": true,
+      "detail": "(Hotel Mirador del Lago, Auto Compacto Automatico)"
+    },
+    {
+      "id": "25.1",
+      "desc": "Lista de favoritos accesible desde la cuenta (\"Mis favoritos\")",
+      "ok": true,
+      "detail": "(Hotel Mirador del Lago, Auto Compacto Automatico)"
+    },
+    {
+      "id": "25.2",
+      "desc": "Se actualiza en tiempo real al desmarcar en otra sección",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "25.3",
+      "desc": "Eliminar desde \"Mis favoritos\"",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "24.6",
+      "desc": "Móvil: marcar favorito funciona",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "25.4",
+      "desc": "Móvil: lista de favoritos sin desbordamiento",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "28.4",
+      "desc": "Sin reserva finalizada no puede valorar",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "28.5",
+      "desc": "Con reserva finalizada ve el formulario de estrellas",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "28.6",
+      "desc": "La reseña publicada muestra estrellas, nombre, fecha y comentario",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "28.7",
+      "desc": "La media se actualiza al instante en el detalle",
+      "ok": true,
+      "detail": "(4.0 (1 valoración))"
+    },
+    {
+      "id": "28.8",
+      "desc": "Media y cantidad visibles en los resultados de búsqueda",
+      "ok": true,
+      "detail": "(4.0 (1 valoración))"
+    },
+    {
+      "id": "29.1",
+      "desc": "Opción \"Eliminar categoría\" clara en el panel",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "29.2",
+      "desc": "Confirmación indica la categoría y las consecuencias",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "29.3",
+      "desc": "Botones \"Confirmar\" y \"Cancelar\"",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "29.4",
+      "desc": "\"Cancelar\" no elimina",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "29.5",
+      "desc": "\"Confirmar\" elimina la categoría (los productos quedan sin categoría)",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

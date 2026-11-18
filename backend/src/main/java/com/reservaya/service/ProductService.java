@@ -1,11 +1,13 @@
 package com.reservaya.service;
 
+import com.reservaya.dto.PolicyRequest;
 import com.reservaya.dto.ProductPageResponse;
 import com.reservaya.dto.ProductRequest;
 import com.reservaya.exception.DuplicateProductNameException;
 import com.reservaya.exception.ResourceNotFoundException;
 import com.reservaya.model.Category;
 import com.reservaya.model.Feature;
+import com.reservaya.model.Policy;
 import com.reservaya.model.Product;
 import com.reservaya.repository.CategoryRepository;
 import com.reservaya.repository.FeatureRepository;
@@ -88,6 +90,7 @@ public class ProductService {
         Product product = new Product(name, request.description().trim(), new ArrayList<>(request.images()));
         product.setCategory(resolveCategory(request.categoryId()));
         product.setFeatures(resolveFeatures(request.featureIds()));
+        product.setPolicies(toPolicies(request.policies()));
         return productRepository.save(product);
     }
 
@@ -106,6 +109,8 @@ public class ProductService {
         product.setCategory(resolveCategory(request.categoryId()));
         product.getFeatures().clear();
         product.getFeatures().addAll(resolveFeatures(request.featureIds()));
+        product.getPolicies().clear();
+        product.getPolicies().addAll(toPolicies(request.policies()));
         return productRepository.save(product);
     }
 
@@ -121,6 +126,17 @@ public class ProductService {
     public void delete(Long id) {
         Product product = findById(id);
         productRepository.delete(product);
+    }
+
+    private static List<Policy> toPolicies(List<PolicyRequest> policies) {
+        if (policies == null) {
+            return new ArrayList<>();
+        }
+        List<Policy> result = new ArrayList<>();
+        for (PolicyRequest p : policies) {
+            result.add(new Policy(p.title().trim(), p.description().trim()));
+        }
+        return result;
     }
 
     private Category resolveCategory(Long categoryId) {

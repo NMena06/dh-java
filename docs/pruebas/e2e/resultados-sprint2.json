@@ -1,5 +1,5 @@
 {
-  "fecha": "2026-11-18T18:31:44.360Z",
+  "fecha": "2026-11-18T19:03:50.600Z",
   "passed": 48,
   "total": 48,
   "results": [
@@ -175,7 +175,7 @@
       "id": "12.1",
       "desc": "Registrar producto con categoría",
       "ok": true,
-      "detail": "(Cabañas 675883)"
+      "detail": "(Cabañas 603698)"
     },
     {
       "id": "12.2",
@@ -253,19 +253,19 @@
       "id": "20.2",
       "desc": "Filtrar por una categoría muestra solo sus productos",
       "ok": true,
-      "detail": "(Cabaña del Bosque 675883)"
+      "detail": "(Cabaña del Bosque 603698)"
     },
     {
       "id": "20.3",
       "desc": "Muestra cantidad filtrada y total",
       "ok": true,
-      "detail": "(Mostrando 1 de 6 productos en Cabañas 675883)"
+      "detail": "(Mostrando 1 de 6 productos en Cabañas 603698)"
     },
     {
       "id": "20.4",
       "desc": "Seleccionar varias categorías suma resultados",
       "ok": true,
-      "detail": "(Mostrando 3 de 6 productos en Cabañas 675883, Hoteles)"
+      "detail": "(Mostrando 3 de 6 productos en Cabañas 603698, Hoteles)"
     },
     {
       "id": "20.5",

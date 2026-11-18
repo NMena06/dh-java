@@ -1,12 +1,14 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
+import ScrollToTop from './components/ScrollToTop.jsx';
 import { RequireAdmin, RequireAuth } from './components/RouteGuards.jsx';
 import Home from './pages/Home.jsx';
 import ProductDetail from './pages/ProductDetail.jsx';
 import Register from './pages/Register.jsx';
 import Login from './pages/Login.jsx';
 import Profile from './pages/Profile.jsx';
+import Favorites from './pages/Favorites.jsx';
 import AdminLayout from './pages/admin/AdminLayout.jsx';
 import AdminPanel from './pages/admin/AdminPanel.jsx';
 import AdminProducts from './pages/admin/AdminProducts.jsx';
@@ -19,6 +21,7 @@ import AdminUsers from './pages/admin/AdminUsers.jsx';
 export default function App() {
   return (
     <>
+      <ScrollToTop />
       <Header />
       <main className="main">
         <Routes>
@@ -27,6 +30,7 @@ export default function App() {
           <Route path="/registro" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/mi-cuenta" element={<RequireAuth><Profile /></RequireAuth>} />
+          <Route path="/favoritos" element={<RequireAuth><Favorites /></RequireAuth>} />
           <Route path="/administracion" element={<RequireAdmin><AdminLayout /></RequireAdmin>}>
             <Route index element={<AdminPanel />} />
             <Route path="productos" element={<AdminProducts />} />

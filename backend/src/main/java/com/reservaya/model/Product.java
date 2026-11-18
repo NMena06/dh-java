@@ -1,5 +1,6 @@
 package com.reservaya.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -46,6 +47,30 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "feature_id"))
     @OrderBy("name ASC")
     private Set<Feature> features = new LinkedHashSet<>();
+
+    /** Politicas de uso (historia #26). */
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "product_policies", joinColumns = @JoinColumn(name = "product_id"))
+    @OrderColumn(name = "position")
+    private List<Policy> policies = new ArrayList<>();
+
+    /** Puntuacion media y cantidad de valoraciones (historia #28). Se recalculan con cada valoracion. */
+    private Double ratingAverage;
+
+    private Integer ratingCount;
+
+    // Relaciones solo para borrar en cascada al eliminar el producto; no se serializan.
+    @JsonIgnore
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    private List<Reservation> reservations = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    private List<Review> reviews = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    private List<Favorite> favorites = new ArrayList<>();
 
     public Product() {
     }
@@ -98,5 +123,26 @@ public class Product {
 
     public void setFeatures(Set<Feature> features) {
         this.features = features;
+    }
+
+    public List<Policy> getPolicies() {
+        return policies;
+    }
+
+    public void setPolicies(List<Policy> policies) {
+        this.policies = policies;
+    }
+
+    public double getRatingAverage() {
+        return ratingAverage == null ? 0 : ratingAverage;
+    }
+
+    public int getRatingCount() {
+        return ratingCount == null ? 0 : ratingCount;
+    }
+
+    public void updateRating(double average, int count) {
+        this.ratingAverage = Math.round(average * 10) / 10.0;
+        this.ratingCount = count;
     }
 }

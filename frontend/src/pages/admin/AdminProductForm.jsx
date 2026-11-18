@@ -20,6 +20,7 @@ export default function AdminProductForm() {
   const [files, setFiles] = useState([]);
   const [categoryId, setCategoryId] = useState('');
   const [featureIds, setFeatureIds] = useState([]);
+  const [policies, setPolicies] = useState([]);
   const [categories, setCategories] = useState([]);
   const [features, setFeatures] = useState([]);
   const [error, setError] = useState('');
@@ -39,6 +40,7 @@ export default function AdminProductForm() {
           setExistingImages(product.images ?? []);
           setCategoryId(product.category?.id ? String(product.category.id) : '');
           setFeatureIds((product.features ?? []).map((f) => f.id));
+          setPolicies((product.policies ?? []).map((p) => ({ title: p.title, description: p.description })));
         }
       })
       .catch((err) => setError(err.message))
@@ -75,6 +77,10 @@ export default function AdminProductForm() {
       setError('Nombre y descripción son obligatorios');
       return;
     }
+    if (policies.some((p) => !p.title.trim() || !p.description.trim())) {
+      setError('Cada política necesita título y descripción');
+      return;
+    }
     if (existingImages.length + files.length === 0) {
       setError('Debes subir al menos una imagen');
       return;
@@ -89,6 +95,7 @@ export default function AdminProductForm() {
         images: [...existingImages, ...newImages],
         categoryId: categoryId ? Number(categoryId) : null,
         featureIds,
+        policies: policies.map((p) => ({ title: p.title.trim(), description: p.description.trim() })),
       };
       if (isEdit) await updateProduct(id, payload);
       else await createProduct(payload);
@@ -152,6 +159,29 @@ export default function AdminProductForm() {
               </label>
             ))}
           </div>
+        </fieldset>
+
+        <fieldset className="policy-editor">
+          <legend>Políticas de uso</legend>
+          {policies.length === 0 && <p className="muted">Sin políticas. Agrega normas, cuidados o la política de cancelación.</p>}
+          {policies.map((policy, index) => (
+            <div key={index} className="policy-row">
+              <input type="text" placeholder="Título (ej.: Normas de la casa)" maxLength={80} value={policy.title}
+                aria-label={`Título de la política ${index + 1}`}
+                onChange={(e) => setPolicies((prev) => prev.map((p, i) => (i === index ? { ...p, title: e.target.value } : p)))} />
+              <textarea rows={2} placeholder="Descripción" maxLength={1000} value={policy.description}
+                aria-label={`Descripción de la política ${index + 1}`}
+                onChange={(e) => setPolicies((prev) => prev.map((p, i) => (i === index ? { ...p, description: e.target.value } : p)))} />
+              <button type="button" className="btn btn-outline-danger btn-sm"
+                onClick={() => setPolicies((prev) => prev.filter((_, i) => i !== index))}>Quitar</button>
+            </div>
+          ))}
+          {policies.length < 12 && (
+            <button type="button" className="btn btn-outline-dark btn-sm"
+              onClick={() => setPolicies((prev) => [...prev, { title: '', description: '' }])}>
+              + Agregar política
+            </button>
+          )}
         </fieldset>
 
         {isEdit && existingImages.length > 0 && (

@@ -42,7 +42,11 @@ export default function Login() {
     <section className="auth-page">
       <form className="auth-card" onSubmit={handleSubmit} noValidate>
         <h1>Iniciar sesión</h1>
-        {location.state?.from && <p className="info-text">Inicia sesión para continuar.</p>}
+        {location.state?.from && (
+          <p className="info-text">
+            {location.state.reason === 'favoritos' ? 'Inicia sesión para guardar tus favoritos.' : 'Inicia sesión para continuar.'}
+          </p>
+        )}
 
         <div className="field">
           <label htmlFor="login-email">Correo electrónico</label>

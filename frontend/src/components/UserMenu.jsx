@@ -58,6 +58,7 @@ export default function UserMenu() {
             {isAdmin && <span className="role-badge">Administrador</span>}
           </div>
           <Link to="/mi-cuenta" role="menuitem" onClick={() => setOpen(false)}>Mi cuenta</Link>
+          <Link to="/favoritos" role="menuitem" onClick={() => setOpen(false)}>Mis favoritos</Link>
           {isAdmin && (
             <Link to="/administracion" role="menuitem" onClick={() => setOpen(false)}>Panel de administración</Link>
           )}

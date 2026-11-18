@@ -3,6 +3,9 @@ import ProductCard from '../components/ProductCard.jsx';
 import Pagination from '../components/Pagination.jsx';
 import { getProductsPage, getRandomProducts } from '../services/productService.js';
 import { getCategories } from '../services/catalogService.js';
+import { searchProducts } from '../services/searchService.js';
+import SearchBar from '../components/SearchBar.jsx';
+import { formatLong, fromISO } from '../utils/dates.js';
 
 const PAGE_SIZE = 10;
 
@@ -20,6 +23,39 @@ export default function Home() {
   const [pageLoading, setPageLoading] = useState(true);
   const [pageError, setPageError] = useState('');
   const resultsRef = useRef(null);
+
+  // Historia #22: busqueda. null = sin busqueda activa
+  const [search, setSearch] = useState(null);
+  const [searchPage, setSearchPage] = useState(0);
+  const [searchData, setSearchData] = useState(null);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchError, setSearchError] = useState('');
+  const searchRef = useRef(null);
+
+  useEffect(() => {
+    if (!search) return undefined;
+    let cancelled = false;
+    setSearchLoading(true);
+    setSearchError('');
+    searchProducts({ ...search, page: searchPage, size: PAGE_SIZE })
+      .then((data) => !cancelled && setSearchData(data))
+      .catch((err) => !cancelled && setSearchError(err.message))
+      .finally(() => !cancelled && setSearchLoading(false));
+    return () => {
+      cancelled = true;
+    };
+  }, [search, searchPage]);
+
+  const runSearch = (criteria) => {
+    setSearch(criteria);
+    setSearchPage(0);
+    setTimeout(() => searchRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  };
+
+  const clearSearch = () => {
+    setSearch(null);
+    setSearchData(null);
+  };
 
   useEffect(() => {
     getRandomProducts(10)
@@ -69,14 +105,44 @@ export default function Home() {
 
   return (
     <div className="home">
-      <section className="home-search">
-        <h1>Encuentra tu próxima reserva</h1>
-        <form className="search-form" onSubmit={(e) => e.preventDefault()}>
-          <input type="text" placeholder="¿A dónde vamos?" aria-label="Destino" />
-          <input type="text" placeholder="Fechas de entrada - salida" aria-label="Fechas" />
-          <button type="submit" className="btn btn-primary">Buscar</button>
-        </form>
-      </section>
+      <SearchBar onSearch={runSearch} />
+
+      {search && (
+        <section className="home-section search-results" ref={searchRef} aria-labelledby="search-results-title" aria-busy={searchLoading}>
+          <div className="results-header">
+            <h2 id="search-results-title">Resultados de búsqueda</h2>
+            <button type="button" className="btn btn-outline-dark btn-sm" onClick={clearSearch}>Limpiar búsqueda</button>
+          </div>
+          <p className="results-count" aria-live="polite">
+            {searchData && (
+              <>
+                <strong>{searchData.totalElements}</strong> {searchData.totalElements === 1 ? 'resultado' : 'resultados'}
+                {search.q && <> para <strong>“{search.q}”</strong></>}
+                {search.checkIn && (
+                  <> disponibles del <strong>{formatLong(fromISO(search.checkIn))}</strong> al <strong>{formatLong(fromISO(search.checkOut))}</strong></>
+                )}
+              </>
+            )}
+          </p>
+          {searchError && <p className="error-text" role="alert">{searchError}</p>}
+          {!searchLoading && searchData && searchData.content.length === 0 && (
+            <div className="empty-results">
+              <p>No encontramos productos que coincidan con tu búsqueda. Prueba con otras palabras o fechas.</p>
+            </div>
+          )}
+          <div className={`product-grid ${searchLoading ? 'is-loading' : ''}`}>
+            {searchData?.content.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+          {searchData && (
+            <Pagination page={searchPage} totalPages={searchData.totalPages} onChange={(p) => {
+              setSearchPage(p);
+              searchRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }} />
+          )}
+        </section>
+      )}
 
       <section className="home-section">
         <h2>Buscar por categoría</h2>
